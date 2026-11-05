@@ -85,11 +85,11 @@
   /* Huge uppercase display type (hero / closing CTA) */
   .display {
     font-family: var(--font-display);
-    font-weight: 800;
-    font-stretch: 112%;
+    font-weight: 750;
+    font-stretch: 100%;
     text-transform: uppercase;
-    line-height: 0.9;
-    letter-spacing: -0.015em;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
   }
 
   /* Sentence-case section heading */
