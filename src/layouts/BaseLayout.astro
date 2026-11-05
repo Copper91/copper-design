@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import GlitchLoader from '../components/GlitchLoader.astro';
 import { site, activeSocials } from '../data/site';
 
 interface Props {
@@ -64,15 +65,30 @@ const structured = [organization, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd :
 
     <script type="application/ld+json" set:html={JSON.stringify(structured)} />
 
+    <!--
+      Progressive enhancement + first-visit intro (once per session).
+      The loader is display:none unless this script adds html.cd-intro, so without JS it never shows.
+      Timers here always clear it, even if the bundled JS fails to load.
+    -->
     <script is:inline>
-      document.documentElement.classList.add('js');
-    </script>
-    <script>
-      document.addEventListener('astro:after-swap', () => document.documentElement.classList.add('js'));
+      (function () {
+        var d = document.documentElement;
+        d.classList.add('js');
+        try {
+          if (!sessionStorage.getItem('cd-intro')) {
+            sessionStorage.setItem('cd-intro', '1');
+            var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            d.classList.add('cd-intro');
+            setTimeout(function () { d.classList.add('cd-intro-out'); }, rm ? 250 : 680);
+            setTimeout(function () { d.classList.remove('cd-intro', 'cd-intro-out'); }, rm ? 470 : 920);
+          }
+        } catch (e) {}
+      })();
     </script>
     <ClientRouter fallback="swap" />
   </head>
   <body class="min-h-screen flex flex-col">
+    <GlitchLoader />
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-fg focus:px-5 focus:py-3 focus:text-bg"

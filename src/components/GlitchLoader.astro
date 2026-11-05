@@ -1,0 +1,224 @@
+---
+// Full-screen glitch loader shown on first visit (once per session) and between page navigations.
+// - Hidden by default; only visible when JS adds html.cd-intro or sets data-state="on".
+// - aria-hidden and pointer-events: none, so it never traps focus or blocks input.
+// - Reduced motion: no RGB split / slices / flicker / scanlines, just a short fade.
+import { monogram, wordmark, lockup } from '../data/logo';
+const layers = ['r', 'c', 's1', 's2', 'base'] as const;
+---
+
+<div id="cd-loader" class="cd-loader" aria-hidden="true" data-state="off" transition:persist="cd-loader">
+  <svg width="0" height="0" class="absolute" focusable="false">
+    <defs>
+      <g id="cd-lockup-shape">
+        <path fill-rule="evenodd" d={monogram.d}></path>
+        <path fill-rule="evenodd" d={wordmark.d}></path>
+      </g>
+    </defs>
+  </svg>
+  <div class="cd-stage">
+    {
+      layers.map((l) => (
+        <svg class={`cd-l cd-l--${l}`} viewBox={lockup.viewBox} focusable="false" fill="currentColor">
+          <use href="#cd-lockup-shape" />
+        </svg>
+      ))
+    }
+  </div>
+  <div class="cd-scan"></div>
+  <div class="cd-bar"><span></span></div>
+</div>
+
+<style is:global>
+  .cd-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    place-items: center;
+    background: #000;
+    color: #fff;
+    pointer-events: none;
+    opacity: 1;
+  }
+  html.cd-intro .cd-loader,
+  .cd-loader[data-state='on'],
+  .cd-loader[data-state='leaving'] {
+    display: grid;
+  }
+  html.cd-intro-out .cd-loader,
+  .cd-loader[data-state='leaving'] {
+    opacity: 0;
+    transition: opacity 0.24s ease-out;
+  }
+
+  .cd-stage {
+    position: relative;
+    width: clamp(120px, 22vw, 190px);
+    aspect-ratio: 1439 / 1631;
+  }
+  .cd-l {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  /* Base logo: brief flicker */
+  .cd-l--base { animation: cd-flicker 0.72s steps(1, end) both; }
+  /* RGB split copies */
+  .cd-l--r { color: #ff2b4f; mix-blend-mode: screen; animation: cd-split-r 0.72s steps(1, end) both; }
+  .cd-l--c { color: #00e1ff; mix-blend-mode: screen; animation: cd-split-c 0.72s steps(1, end) both; }
+  /* Horizontal slice displacement */
+  .cd-l--s1 { animation: cd-slice-1 0.72s steps(1, end) both; }
+  .cd-l--s2 { animation: cd-slice-2 0.72s steps(1, end) both; }
+
+  .cd-scan {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, rgb(255 255 255 / 0.05) 0 1px, transparent 1px 3px);
+    mix-blend-mode: overlay;
+    animation: cd-scan 0.72s steps(1, end) both;
+  }
+  .cd-bar {
+    position: absolute;
+    left: 50%;
+    bottom: 18%;
+    width: clamp(120px, 22vw, 190px);
+    height: 1px;
+    transform: translateX(-50%);
+    background: rgb(255 255 255 / 0.12);
+    overflow: hidden;
+  }
+  .cd-bar span {
+    display: block;
+    height: 100%;
+    background: #fff;
+    transform-origin: left;
+    animation: cd-bar 0.7s cubic-bezier(0.6, 0, 0.2, 1) both;
+  }
+
+  @keyframes cd-flicker {
+    0% { opacity: 0; }
+    6% { opacity: 1; }
+    10% { opacity: 0.25; transform: translateX(3px); }
+    14% { opacity: 1; transform: none; }
+    38% { opacity: 1; }
+    41% { opacity: 0.4; transform: translateX(-4px) skewX(-6deg); }
+    45% { opacity: 1; transform: none; }
+    70% { opacity: 1; }
+    73% { opacity: 0.6; }
+    76% { opacity: 1; }
+  }
+  @keyframes cd-split-r {
+    0% { transform: translate(-10px, 0); opacity: 0.9; }
+    10% { transform: translate(7px, -2px); }
+    20% { transform: translate(-4px, 1px); }
+    32% { transform: translate(12px, 0); }
+    44% { transform: translate(-6px, 2px); }
+    58% { transform: translate(3px, 0); }
+    72% { transform: translate(-2px, 0); opacity: 0.7; }
+    84% { transform: translate(0, 0); opacity: 0; }
+    100% { opacity: 0; }
+  }
+  @keyframes cd-split-c {
+    0% { transform: translate(10px, 0); opacity: 0.9; }
+    10% { transform: translate(-6px, 2px); }
+    20% { transform: translate(5px, -1px); }
+    32% { transform: translate(-11px, 0); }
+    44% { transform: translate(6px, -2px); }
+    58% { transform: translate(-3px, 0); }
+    72% { transform: translate(2px, 0); opacity: 0.7; }
+    84% { transform: translate(0, 0); opacity: 0; }
+    100% { opacity: 0; }
+  }
+  @keyframes cd-slice-1 {
+    0% { clip-path: inset(12% 0 78% 0); transform: translateX(-22px); opacity: 1; }
+    12% { clip-path: inset(48% 0 40% 0); transform: translateX(18px); }
+    24% { clip-path: inset(70% 0 18% 0); transform: translateX(-12px); }
+    36% { clip-path: inset(30% 0 62% 0); transform: translateX(26px); }
+    48% { clip-path: inset(86% 0 6% 0); transform: translateX(-16px); }
+    60% { clip-path: inset(56% 0 36% 0); transform: translateX(8px); }
+    70% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  @keyframes cd-slice-2 {
+    0% { clip-path: inset(62% 0 30% 0); transform: translateX(16px); opacity: 1; }
+    14% { clip-path: inset(20% 0 72% 0); transform: translateX(-24px); }
+    28% { clip-path: inset(40% 0 52% 0); transform: translateX(12px); }
+    42% { clip-path: inset(78% 0 12% 0); transform: translateX(-20px); }
+    56% { clip-path: inset(8% 0 84% 0); transform: translateX(10px); }
+    66% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  @keyframes cd-scan {
+    0% { opacity: 1; }
+    20% { opacity: 0.4; }
+    30% { opacity: 1; }
+    60% { opacity: 0.6; }
+    80% { opacity: 0.2; }
+    100% { opacity: 0; }
+  }
+  @keyframes cd-bar {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  /* Reduced motion: no glitch, no flicker; static logo with a short fade. */
+  @media (prefers-reduced-motion: reduce) {
+    .cd-l--r, .cd-l--c, .cd-l--s1, .cd-l--s2, .cd-scan, .cd-bar { display: none; }
+    .cd-l--base { animation: none !important; }
+    html.cd-intro-out .cd-loader,
+    .cd-loader[data-state='leaving'] {
+      transition: opacity 0.2s ease-out !important;
+    }
+  }
+</style>
+
+<script>
+  // Navigation loader. The first-visit intro is handled by the inline head script in BaseLayout.
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const MIN_MS = reduce ? 200 : 600; // minimum time the glitch shows
+  const MAX_MS = 900; // hard cap so a slow network never hides the site behind the loader
+  const FADE_MS = 240;
+  let capTimer: number | undefined;
+
+  const loader = () => document.getElementById('cd-loader');
+  const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+  function show() {
+    const el = loader();
+    if (!el) return;
+    el.dataset.state = 'off';
+    void el.offsetWidth; // restart CSS animations
+    el.dataset.state = 'on';
+    clearTimeout(capTimer);
+    capTimer = window.setTimeout(hide, MAX_MS);
+  }
+
+  function hide() {
+    const el = loader();
+    if (!el || el.dataset.state !== 'on') return;
+    clearTimeout(capTimer);
+    el.dataset.state = 'leaving';
+    setTimeout(() => {
+      if (el.dataset.state === 'leaving') el.dataset.state = 'off';
+    }, FADE_MS);
+  }
+
+  document.addEventListener('astro:before-preparation', (e) => {
+    show();
+    const original = e.loader;
+    e.loader = async () => {
+      await Promise.all([original(), wait(MIN_MS)]);
+    };
+  });
+
+  // Keep the progressive-enhancement class after the router swaps <html> attributes.
+  document.addEventListener('astro:after-swap', () => {
+    document.documentElement.classList.add('js');
+  });
+
+  document.addEventListener('astro:page-load', () => hide());
+</script>
