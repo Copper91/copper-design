@@ -81,8 +81,8 @@ const faqLd = {
 
   <!-- How AI fits -->
   <section class="mt-24 border-y rule bg-surface py-20 md:mt-36 md:py-32" aria-labelledby="ai-title">
-    <div class="container-x grid gap-12 md:grid-cols-12">
-      <div class="md:col-span-5" data-reveal>
+    <div class="container-x grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-5" data-reveal>
         <p class="eyebrow">How AI fits our process</p>
         <h2 id="ai-title" class="mt-4 font-display text-4xl leading-[1.02] md:text-6xl">A faster sketchbook. Never the designer.</h2>
         <p class="mt-6 max-w-md text-muted md:text-lg">
@@ -90,7 +90,7 @@ const faqLd = {
         </p>
       </div>
       <!-- TODO(owner): confirm these AI-use commitments match how you work. -->
-      <ul class="grid gap-4 sm:grid-cols-2 md:col-span-7">
+      <ul class="grid gap-4 sm:grid-cols-2 lg:col-span-7">
         {aiPrinciples.map((a, i) => (
           <li class="rounded-3xl border rule bg-paper p-6 md:p-8" data-reveal style={`--reveal-delay:${i * 80}ms`}>
             <span class="font-display text-sm text-accent" aria-hidden="true">0{i + 1}</span>

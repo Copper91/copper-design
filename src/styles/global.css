@@ -117,6 +117,7 @@
 
   .eyebrow {
     @apply text-xs font-medium uppercase tracking-[0.18em];
+    font-family: var(--font-sans);
     color: var(--accent-text);
   }
 
