@@ -1,0 +1,17 @@
+---
+import { faqs } from '../data/home';
+---
+
+<div class="divide-y divide-[var(--line)] border-y rule">
+  {faqs.map((f) => (
+    <details class="faq group py-2" data-reveal>
+      <summary class="flex items-center justify-between gap-6 py-5 font-display text-xl md:text-2xl">
+        <span>{f.q}</span>
+        <span class="faq-icon inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border rule text-accent" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 1v12M1 7h12"></path></svg>
+        </span>
+      </summary>
+      <p class="max-w-3xl pb-6 text-muted">{f.a}</p>
+    </details>
+  ))}
+</div>

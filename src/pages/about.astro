@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { bookCallHref } from '../data/site';
+
+const values = [
+  { title: 'Craft over volume', text: 'We would rather make fewer things properly. Every file we hand over has been checked, named and prepared for where it will be used.' },
+  { title: 'Honest about tools', text: 'We use AI where it genuinely helps and say so. We don’t hide it, and we don’t let it make the decisions.' },
+  { title: 'Clear from day one', text: 'Scope, price and timeline are agreed in writing before design starts. Feedback rounds are structured, so projects finish on time.' },
+  { title: 'Built to be used', text: 'Good design survives contact with real life — small screens, cheap printers, busy teams. We design for that.' },
+];
+---
+
+<BaseLayout
+  title="About"
+  description="About Copper Design: a graphic and AI-assisted design studio that pairs fast AI exploration with hand-finished craft."
+>
+  <section class="container-x pt-16 md:pt-28" aria-labelledby="page-title">
+    <p class="eyebrow" data-reveal>About</p>
+    <h1 id="page-title" class="mt-4 max-w-[16ch] font-display text-5xl leading-[0.95] md:text-8xl" data-reveal>A studio named after a material that ages well.</h1>
+  </section>
+
+  <section class="container-x mt-16 grid gap-12 md:mt-24 md:grid-cols-12" aria-labelledby="story-title">
+    <div class="md:col-span-5" data-reveal>
+      <div class="relative aspect-square overflow-hidden rounded-3xl border rule" aria-hidden="true">
+        <div class="absolute inset-0" style="background: var(--metal)"></div>
+        <div class="absolute inset-[18%] rounded-full border border-[#1E1A17]/40"></div>
+        <div class="absolute inset-[32%] rounded-full bg-[#1E1A17]/85"></div>
+      </div>
+      <!-- TODO(owner): replace with a real studio or founder photo (export as AVIF/WebP via astro:assets). -->
+    </div>
+    <div class="space-y-6 text-lg text-muted md:col-span-6 md:col-start-7" data-reveal>
+      <h2 id="story-title" class="font-display text-3xl text-ink md:text-5xl">Why Copper</h2>
+      <p>Copper is worked by hand, holds its shape and develops character over time. That’s what we want for the brands we design: well made, durable, and more distinctive the longer they’re used.</p>
+      <p>Copper Design is a graphic design studio for businesses that need work that looks considered — identities, social content, print and web visuals. We use AI tools to explore more ideas, faster, and keep the craft, judgement and finishing firmly human.</p>
+      <p>
+        <!-- TODO(owner): add founder name, background, location and a short personal story. Do not publish until supplied. -->
+        The person behind the studio, their background and where we’re based will be introduced here soon.
+      </p>
+      <a href={bookCallHref} class="btn btn-primary">Book a call</a>
+    </div>
+  </section>
+
+  <section class="container-x mt-24 md:mt-36" aria-labelledby="values-title">
+    <p class="eyebrow" data-reveal>What we believe</p>
+    <h2 id="values-title" class="mt-4 font-display text-4xl md:text-6xl" data-reveal>Four things we hold to.</h2>
+    <ul class="mt-12 grid gap-4 md:grid-cols-2">
+      {values.map((v, i) => (
+        <li class="rounded-3xl border rule bg-surface p-6 md:p-10" data-reveal style={`--reveal-delay:${(i % 2) * 90}ms`}>
+          <h3 class="font-display text-2xl md:text-3xl">{v.title}</h3>
+          <p class="mt-3 text-muted">{v.text}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <CtaBand />
+</BaseLayout>

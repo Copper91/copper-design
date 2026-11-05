@@ -1,0 +1,51 @@
+---
+import ProjectArt from './ProjectArt.astro';
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  size?: 'large' | 'default';
+  headingLevel?: 'h2' | 'h3';
+  delay?: number;
+}
+const { project, size = 'default', headingLevel = 'h3', delay = 0 } = Astro.props;
+const Heading = headingLevel;
+---
+
+<article class="group relative" data-reveal style={`--reveal-delay:${delay}ms`} data-categories={project.categories.join('|')}>
+  <div
+    class:list={[
+      'art-zoom relative overflow-hidden rounded-3xl border rule bg-surface',
+      size === 'large' ? 'aspect-[4/3] md:aspect-[16/10]' : 'aspect-[4/3]',
+    ]}
+  >
+    <ProjectArt variant={project.art} uid={`art-${project.slug}`} label={`Abstract artwork for the concept project: ${project.title}`} />
+    <span class="absolute left-4 top-4 rounded-full bg-paper/85 px-3 py-1 text-xs font-medium text-ink backdrop-blur">Concept project</span>
+  </div>
+  <div class="mt-5 flex items-start justify-between gap-6">
+    <div>
+      <p class="text-xs uppercase tracking-[0.16em] text-muted">{project.categories.join(' · ')} — {project.sector}</p>
+      <Heading class:list={['mt-2 font-display leading-tight', size === 'large' ? 'text-2xl md:text-3xl' : 'text-xl md:text-2xl']}>
+        <a href={`/work/${project.slug}/`} class="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none">
+          {project.title}
+        </a>
+      </Heading>
+      <p class="mt-2 max-w-prose text-sm text-muted">{project.summary}</p>
+    </div>
+    <span
+      aria-hidden="true"
+      class="mt-6 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border rule transition-colors group-hover:border-transparent group-hover:bg-cta group-hover:text-on-cta"
+    >
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12L12 4M5 4h7v7"></path></svg>
+    </span>
+  </div>
+</article>
+
+<style>
+  /* Keep a visible focus ring around the whole card when the stretched link is focused */
+  article:has(a:focus-visible) {
+    outline: 2px solid var(--accent-text);
+    outline-offset: 8px;
+    border-radius: 1.5rem;
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+import { packages } from '../data/home';
+import { startProjectHref } from '../data/site';
+---
+
+<ul class="grid gap-4 md:grid-cols-3">
+  {packages.map((p, i) => (
+    <li
+      class:list={[
+        'relative flex flex-col rounded-3xl border p-6 md:p-8',
+        p.featured ? 'border-[var(--accent-text)] bg-surface' : 'rule',
+      ]}
+      data-reveal
+      style={`--reveal-delay:${i * 80}ms`}
+    >
+      {p.featured && <span class="absolute right-6 top-6 rounded-full bg-cta px-3 py-1 text-xs font-medium text-on-cta">Most complete</span>}
+      <h3 class="font-display text-3xl">{p.name}</h3>
+      <p class="mt-2 text-sm text-muted">{p.for}</p>
+      {/* TODO(owner): set package prices in src/data/home.ts */}
+      <p class="mt-8 font-display text-4xl">{p.price ?? 'Quoted per project'}</p>
+      {!p.price && <p class="mt-1 text-xs text-muted">Fixed quote after a free discovery call.</p>}
+      <ul class="mt-8 space-y-3 border-t rule pt-6 text-sm">
+        {p.includes.map((item) => (
+          <li class="flex gap-3">
+            <svg class="mt-0.5 shrink-0 text-accent" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8.5l3 3 7-7"></path></svg>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+      <a href={`${startProjectHref.replace('#enquiry', '')}?package=${encodeURIComponent(p.name)}#enquiry`} class:list={['btn mt-8', p.featured ? 'btn-primary' : 'btn-ghost']}>
+        Enquire about {p.name}
+      </a>
+    </li>
+  ))}
+</ul>

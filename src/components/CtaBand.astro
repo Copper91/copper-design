@@ -1,0 +1,23 @@
+---
+import { startProjectHref, bookCallHref } from '../data/site';
+interface Props { title?: string; text?: string }
+const {
+  title = 'Have something that needs to look right?',
+  text = 'Tell us what you’re working on. We reply with a few questions, a rough timeline and the next step — no obligation.',
+} = Astro.props;
+---
+
+<section class="container-x mt-24 md:mt-36" aria-labelledby="cta-title">
+  <div class="relative overflow-hidden rounded-[2rem] border rule bg-surface px-6 py-16 md:px-16 md:py-24" data-reveal>
+    <div aria-hidden="true" class="pointer-events-none absolute -right-32 -top-32 h-[28rem] w-[28rem] rounded-full opacity-40 blur-3xl" style="background: var(--metal)"></div>
+    <div class="relative max-w-3xl">
+      <p class="eyebrow">Start a project</p>
+      <h2 id="cta-title" class="mt-4 font-display text-4xl leading-[1.02] md:text-7xl">{title}</h2>
+      <p class="mt-6 max-w-xl text-base text-muted md:text-lg">{text}</p>
+      <div class="mt-10 flex flex-wrap gap-3">
+        <a href={startProjectHref} class="btn btn-primary px-8 text-base">Start a project</a>
+        <a href={bookCallHref} class="btn btn-ghost px-8 text-base">Book a call</a>
+      </div>
+    </div>
+  </div>
+</section>

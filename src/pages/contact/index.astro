@@ -1,0 +1,262 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { site } from '../../data/site';
+import { services } from '../../data/services';
+import { packages } from '../../data/home';
+
+// TODO(owner): set site.formEndpoint (Formspree recommended) in src/data/site.ts.
+const endpoint = site.formEndpoint;
+const thanksUrl = new URL('/contact/thanks/', Astro.site).toString();
+const isDev = import.meta.env.DEV;
+---
+
+<BaseLayout
+  title="Contact"
+  description="Start a project or book a call with Copper Design. Tell us what you need and we’ll reply with questions, a rough timeline and next steps."
+>
+  <section class="container-x pt-16 md:pt-28" aria-labelledby="page-title">
+    <p class="eyebrow" data-reveal>Contact</p>
+    <h1 id="page-title" class="mt-4 max-w-[14ch] font-display text-5xl leading-[0.95] md:text-8xl" data-reveal>Let’s make something good.</h1>
+  </section>
+
+  <section class="container-x mt-14 grid gap-14 md:mt-20 md:grid-cols-12" aria-label="Enquiry">
+    <aside class="space-y-10 md:col-span-4">
+      <div>
+        <h2 class="eyebrow">What happens next</h2>
+        <ol class="mt-5 space-y-5 text-sm">
+          <li class="flex gap-4"><span class="font-display text-xl text-accent" aria-hidden="true">1</span><span class="text-muted">We read your message and reply — usually with a few questions. <!-- TODO(owner): state a real reply time, e.g. "within 2 working days". --></span></li>
+          <li class="flex gap-4"><span class="font-display text-xl text-accent" aria-hidden="true">2</span><span class="text-muted">A short discovery call to understand the project properly.</span></li>
+          <li class="flex gap-4"><span class="font-display text-xl text-accent" aria-hidden="true">3</span><span class="text-muted">A written proposal with scope, timeline and a fixed quote.</span></li>
+        </ol>
+      </div>
+      <div>
+        <h2 class="eyebrow">Prefer email?</h2>
+        {
+          site.email ? (
+            <p class="mt-4"><a class="link-underline font-display text-2xl" href={`mailto:${site.email}`}>{site.email}</a></p>
+          ) : (
+            <p class="mt-4 text-sm text-muted">An email address will be listed here soon. <!-- TODO(owner): add contact email in src/data/site.ts --></p>
+          )
+        }
+      </div>
+    </aside>
+
+    <div class="md:col-span-8">
+      <form
+        id="enquiry"
+        class="rounded-3xl border rule bg-surface p-6 md:p-10"
+        method="POST"
+        action={endpoint || undefined}
+        novalidate
+        data-endpoint={endpoint}
+        data-dev={isDev ? 'true' : undefined}
+        aria-labelledby="form-title"
+      >
+        <h2 id="form-title" class="font-display text-3xl md:text-4xl">Tell us about your project</h2>
+        <p class="mt-2 text-sm text-muted">Fields marked <span aria-hidden="true">*</span><span class="sr-only">with an asterisk</span> are required.</p>
+
+        <div class="mt-6 hidden rounded-2xl border border-[var(--danger)] p-4 text-sm" role="alert" tabindex="-1" data-form-error></div>
+
+        <fieldset class="mt-8">
+          <legend class="text-sm font-medium">I’d like to…</legend>
+          <div class="mt-3 grid gap-3 sm:grid-cols-2">
+            <label class="choice">
+              <input type="radio" name="enquiry_type" value="project" checked />
+              <span>Start a project</span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="enquiry_type" value="call" />
+              <span>Book a call</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="mt-8 grid gap-6 sm:grid-cols-2">
+          <div>
+            <label for="name" class="text-sm font-medium">Your name <span aria-hidden="true">*</span></label>
+            <input id="name" name="name" type="text" autocomplete="name" required class="field mt-2" aria-describedby="name-error" />
+            <p id="name-error" class="error mt-2 hidden text-sm text-danger"></p>
+          </div>
+          <div>
+            <label for="email" class="text-sm font-medium">Email <span aria-hidden="true">*</span></label>
+            <input id="email" name="email" type="email" autocomplete="email" required class="field mt-2" aria-describedby="email-error" />
+            <p id="email-error" class="error mt-2 hidden text-sm text-danger"></p>
+          </div>
+          <div>
+            <label for="company" class="text-sm font-medium">Business or project name</label>
+            <input id="company" name="company" type="text" autocomplete="organization" class="field mt-2" />
+          </div>
+          <div>
+            <label for="service" class="text-sm font-medium">What do you need?</label>
+            <select id="service" name="service" class="field mt-2">
+              <option value="">Not sure yet</option>
+              <optgroup label="Services">
+                {services.map((s) => <option value={s.slug}>{s.title}</option>)}
+              </optgroup>
+              <optgroup label="Packages">
+                {packages.map((p) => <option value={`package:${p.name}`}>{p.name} package</option>)}
+              </optgroup>
+            </select>
+          </div>
+          <div>
+            <label for="timeline" class="text-sm font-medium">Timeline</label>
+            <select id="timeline" name="timeline" class="field mt-2">
+              <option value="">Flexible</option>
+              <option>As soon as possible</option>
+              <option>Within a month</option>
+              <option>1–3 months</option>
+              <option>Just exploring</option>
+            </select>
+          </div>
+          <div>
+            <label for="budget" class="text-sm font-medium">Budget <span class="text-muted">(optional)</span></label>
+            <input id="budget" name="budget" type="text" class="field mt-2" aria-describedby="budget-hint" />
+            <p id="budget-hint" class="mt-2 text-xs text-muted">A rough range helps us suggest the right scope.</p>
+          </div>
+          <div class="sm:col-span-2">
+            <label for="message" class="text-sm font-medium">Tell us a bit about it <span aria-hidden="true">*</span></label>
+            <textarea id="message" name="message" rows="6" required minlength="10" class="field mt-2" aria-describedby="message-error"></textarea>
+            <p id="message-error" class="error mt-2 hidden text-sm text-danger"></p>
+          </div>
+        </div>
+
+        <!-- Honeypot spam trap: hidden from people and assistive tech; bots that fill it are ignored. -->
+        <div class="hp" aria-hidden="true">
+          <label for="website">Leave this field empty</label>
+          <input id="website" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <input type="hidden" name="_subject" value="New enquiry from the Copper Design website" />
+        <input type="hidden" name="_next" value={thanksUrl} />
+
+        <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <p class="text-xs text-muted">We only use your details to reply to this enquiry. See our <a href="/privacy/" class="underline">privacy notice</a>.</p>
+          <button type="submit" class="btn btn-primary px-8 text-base" data-submit>Send enquiry</button>
+        </div>
+      </form>
+
+      <div class="hidden rounded-3xl border rule bg-surface p-8 md:p-12" data-success>
+        <h2 class="font-display text-4xl md:text-5xl" tabindex="-1" data-success-title>Thank you — message received.</h2>
+        <p class="mt-4 max-w-lg text-muted">We’ll read it properly and get back to you with a few questions and next steps.</p>
+        <a href="/work/" class="btn btn-ghost mt-8">Browse the work while you wait</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .choice {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 52px;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    background: var(--paper);
+    cursor: pointer;
+  }
+  .choice:has(input:checked) { border-color: var(--accent-text); }
+  .choice:has(input:focus-visible) { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+  .choice input { accent-color: var(--cta-bg); width: 1.1rem; height: 1.1rem; }
+  .hp {
+    position: absolute !important;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#enquiry');
+  const success = document.querySelector<HTMLElement>('[data-success]');
+  const errorBox = document.querySelector<HTMLElement>('[data-form-error]');
+  const submit = form?.querySelector<HTMLButtonElement>('[data-submit]');
+
+  if (form && success && errorBox && submit) {
+    // Prefill from links like /contact/?enquiry=call, ?service=web-ui, ?package=Identity
+    const params = new URLSearchParams(location.search);
+    if (params.get('enquiry') === 'call') {
+      form.querySelector<HTMLInputElement>('input[name="enquiry_type"][value="call"]')!.checked = true;
+    }
+    const svc = params.get('service') ?? (params.get('package') ? `package:${params.get('package')}` : null);
+    const select = form.querySelector<HTMLSelectElement>('#service');
+    if (svc && select && Array.from(select.options).some((o) => o.value === svc)) select.value = svc;
+
+    const fields = ['name', 'email', 'message'] as const;
+    const messages: Record<string, string> = {
+      name: 'Please tell us your name.',
+      email: 'Please enter a valid email address, like name@example.com.',
+      message: 'Please add a few words about your project (at least 10 characters).',
+    };
+
+    const validate = () => {
+      let first: HTMLElement | null = null;
+      for (const f of fields) {
+        const el = form.elements.namedItem(f) as HTMLInputElement | HTMLTextAreaElement;
+        const err = document.getElementById(`${f}-error`)!;
+        const ok = el.value.trim() !== '' && el.checkValidity();
+        el.setAttribute('aria-invalid', String(!ok));
+        err.textContent = ok ? '' : messages[f];
+        err.classList.toggle('hidden', ok);
+        if (!ok && !first) first = el;
+      }
+      return first;
+    };
+
+    const showError = (msg: string) => {
+      errorBox.textContent = msg;
+      errorBox.classList.remove('hidden');
+      errorBox.focus();
+    };
+
+    const showSuccess = () => {
+      form.classList.add('hidden');
+      success.classList.remove('hidden');
+      success.querySelector<HTMLElement>('[data-success-title]')?.focus();
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorBox.classList.add('hidden');
+      const invalid = validate();
+      if (invalid) {
+        invalid.focus();
+        return;
+      }
+      const data = new FormData(form);
+      // Honeypot filled: almost certainly a bot. Pretend success, send nothing.
+      if (String(data.get('_gotcha') ?? '').trim() !== '') {
+        showSuccess();
+        return;
+      }
+      const endpoint = form.dataset.endpoint;
+      if (!endpoint) {
+        if (form.dataset.dev) {
+          console.info('[contact] No form endpoint configured; simulating success in dev.', Object.fromEntries(data));
+          showSuccess();
+        } else {
+          showError('Sorry — our enquiry form isn’t connected yet. Please try again soon.');
+        }
+        return;
+      }
+      submit.disabled = true;
+      submit.textContent = 'Sending…';
+      try {
+        const res = await fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+        if (!res.ok) throw new Error(String(res.status));
+        showSuccess();
+      } catch {
+        showError('Something went wrong sending your message. Please try again in a moment.');
+      } finally {
+        submit.disabled = false;
+        submit.textContent = 'Send enquiry';
+      }
+    });
+
+    form.addEventListener('input', (e) => {
+      const t = e.target as HTMLElement;
+      if (t.getAttribute('aria-invalid') === 'true') validate();
+    });
+  }
+</script>
