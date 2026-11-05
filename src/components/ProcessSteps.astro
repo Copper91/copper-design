@@ -1,13 +1,17 @@
 ---
 import { process } from '../data/home';
+interface Props { detailed?: boolean }
+const { detailed = false } = Astro.props;
 ---
 
-<ol class="grid gap-px overflow-hidden rounded-3xl border rule bg-[var(--line)] sm:grid-cols-2 lg:grid-cols-4">
+<ol class="relative grid gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
+  <span aria-hidden="true" class="absolute left-0 right-0 top-[5px] hidden h-px bg-line-strong lg:block"></span>
   {process.map((p, i) => (
-    <li class="flex flex-col bg-paper p-6 md:p-8" data-reveal style={`--reveal-delay:${i * 90}ms`}>
-      <span class="font-display text-5xl text-accent md:text-6xl" aria-hidden="true">{p.step}</span>
-      <h3 class="mt-8 font-display text-2xl"><span class="sr-only">Step {i + 1}: </span>{p.title}</h3>
-      <p class="mt-3 text-sm text-muted">{p.text}</p>
+    <li class="relative pr-6 lg:border-l lg:border-line lg:pl-5 lg:first:border-l-0 lg:first:pl-0" data-reveal style={`--reveal-delay:${i * 80}ms`}>
+      <span aria-hidden="true" class="relative z-10 block h-[11px] w-[11px] rounded-full border-2 border-bg bg-fg"></span>
+      <span class="mt-8 block text-xs text-subtle" aria-hidden="true">{p.step}</span>
+      <h3 class="mt-2 text-xl font-medium"><span class="sr-only">Step {i + 1}: </span>{p.title}</h3>
+      <p class="mt-2 text-sm text-muted">{detailed ? p.text : p.short}</p>
     </li>
   ))}
 </ol>

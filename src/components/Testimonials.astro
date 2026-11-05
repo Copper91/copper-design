@@ -1,0 +1,26 @@
+---
+// Renders nothing unless real testimonials exist in src/data/home.ts.
+import { testimonials } from '../data/home';
+import SectionHeading from './SectionHeading.astro';
+---
+
+{
+  testimonials.length > 0 && (
+    <section class="container-x mt-32 md:mt-44" aria-labelledby="testimonials-title">
+      <SectionHeading id="testimonials-title" eyebrow="Testimonials" title="Trusted by teams who care about the details." />
+      <ul class="mt-14 grid gap-3 md:grid-cols-3">
+        {testimonials.map((t, i) => (
+          <li class="card flex flex-col p-6 md:p-7" data-reveal style={`--reveal-delay:${i * 80}ms`}>
+            <figure class="flex h-full flex-col">
+              <blockquote class="text-base text-fg">“{t.quote}”</blockquote>
+              <figcaption class="mt-auto pt-6 text-sm">
+                <span class="block font-medium">{t.name}</span>
+                <span class="block text-subtle">{t.role}</span>
+              </figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}

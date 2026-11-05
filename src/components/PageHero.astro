@@ -1,0 +1,17 @@
+---
+// Inner-page hero: eyebrow, huge uppercase display lines (last line grey), optional intro.
+interface Props { eyebrow: string; lines: string[]; intro?: string }
+const { eyebrow, lines, intro } = Astro.props;
+---
+
+<section class="relative overflow-hidden" aria-labelledby="page-title">
+  <div aria-hidden="true" class="pointer-events-none absolute -top-40 left-1/2 h-[34rem] w-[64rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(255_255_255/0.06),transparent)]"></div>
+  <div class="container-x relative pb-4 pt-20 md:pt-32">
+    <p class="eyebrow" data-reveal>{eyebrow}</p>
+    <h1 id="page-title" class="display mt-8 text-[clamp(3rem,9vw,7.5rem)]" data-reveal style="--reveal-delay:60ms">
+      {lines.map((l, i) => <span class:list={['block', i === lines.length - 1 && lines.length > 1 && 'text-subtle']}>{l}</span>)}
+    </h1>
+    {intro && <p class="mt-8 max-w-2xl text-base text-muted md:text-lg" data-reveal style="--reveal-delay:120ms">{intro}</p>}
+    <slot />
+  </div>
+</section>

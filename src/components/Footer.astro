@@ -1,50 +1,45 @@
 ---
 import Logo from './Logo.astro';
-import { nav, site, startProjectHref, bookCallHref } from '../data/site';
+import { nav, site, activeSocials } from '../data/site';
 const year = new Date().getFullYear();
 ---
 
-<footer class="border-t rule mt-24">
-  <div class="container-x grid gap-12 py-16 md:grid-cols-12">
-    <div class="md:col-span-5">
-      <Logo uid="footer-logo" />
-      <p class="mt-4 max-w-sm text-sm text-muted">
-        A graphic and AI-assisted design studio. Brand identity, social, marketing, web visuals and concept imagery — crafted by people.
+<footer class="mt-32 border-t rule">
+  <div class="container-x grid gap-12 py-16 md:grid-cols-12 md:py-20">
+    <div class="md:col-span-6">
+      <Logo size="md" />
+      <p class="mt-6 max-w-sm text-sm text-muted">
+        A creative studio for brand identity, graphic design, AI creative and motion graphics.
       </p>
-      <div class="mt-6 flex flex-wrap gap-3">
-        <a href={startProjectHref} class="btn btn-primary">Start a project</a>
-        <a href={bookCallHref} class="btn btn-ghost">Book a call</a>
-      </div>
     </div>
 
-    <nav aria-label="Footer" class="md:col-span-3 md:col-start-7">
-      <h2 class="eyebrow">Explore</h2>
-      <ul class="mt-4 space-y-2 text-sm">
-        <li><a class="link-underline" href="/">Home</a></li>
-        {nav.map((i) => <li><a class="link-underline" href={i.href}>{i.label}</a></li>)}
-        <li><a class="link-underline" href="/privacy/">Privacy</a></li>
+    <nav aria-label="Footer" class="md:col-span-3">
+      <h2 class="eyebrow eyebrow-plain">Explore</h2>
+      <ul class="mt-5 space-y-3 text-sm">
+        {nav.filter((i) => i.href !== '/contact/').map((i) => <li><a class="link-underline text-muted hover:text-fg" href={i.href}>{i.label}</a></li>)}
+        <li><a class="link-underline text-muted hover:text-fg" href="/privacy/">Privacy</a></li>
       </ul>
     </nav>
 
     <div class="md:col-span-3">
-      <h2 class="eyebrow">Contact</h2>
-      <ul class="mt-4 space-y-2 text-sm">
+      <h2 class="eyebrow eyebrow-plain">Connect</h2>
+      <ul class="mt-5 space-y-3 text-sm">
+        {/* TODO(owner): add real profile URLs in src/data/site.ts; empty ones are hidden. */}
+        {activeSocials.map((s) => <li><a class="link-underline text-muted hover:text-fg" href={s.href} rel="me noopener">{s.label}</a></li>)}
         {
           site.email ? (
-            <li><a class="link-underline" href={`mailto:${site.email}`}>{site.email}</a></li>
+            <li><a class="link-underline text-muted hover:text-fg" href={`mailto:${site.email}`}>Email</a></li>
           ) : (
-            <li><a class="link-underline" href="/contact/">Use the enquiry form</a></li>
+            <li><a class="link-underline text-muted hover:text-fg" href="/contact/">Enquiry form</a></li>
           )
         }
-        {/* TODO(owner): add phone number and any real social accounts in src/data/site.ts */}
-        {site.socials.map((s) => <li><a class="link-underline" href={s.href} rel="me">{s.label}</a></li>)}
       </ul>
     </div>
   </div>
   <div class="border-t rule">
-    <div class="container-x flex flex-col gap-2 py-6 text-xs text-muted sm:flex-row sm:justify-between">
+    <div class="container-x flex flex-col gap-2 py-6 text-xs text-subtle sm:flex-row sm:justify-between">
       <p>&copy; {year} {site.name}. All rights reserved.</p>
-      <p>Portfolio pieces shown are sample concept projects.</p>
+      <p>{site.slogan}</p>
     </div>
   </div>
 </footer>

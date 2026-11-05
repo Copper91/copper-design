@@ -4,48 +4,41 @@ import type { Project } from '../data/projects';
 
 interface Props {
   project: Project;
-  size?: 'large' | 'default';
+  index?: number;
   headingLevel?: 'h2' | 'h3';
   delay?: number;
+  tall?: boolean;
 }
-const { project, size = 'default', headingLevel = 'h3', delay = 0 } = Astro.props;
+const { project, index, headingLevel = 'h3', delay = 0, tall = false } = Astro.props;
 const Heading = headingLevel;
+const num = index !== undefined ? String(index + 1).padStart(2, '0') : undefined;
 ---
 
-<article class="group relative" data-reveal style={`--reveal-delay:${delay}ms`} data-categories={project.categories.join('|')}>
-  <div
-    class:list={[
-      'art-zoom relative overflow-hidden rounded-3xl border rule bg-surface',
-      size === 'large' ? 'aspect-[4/3] md:aspect-[16/10]' : 'aspect-[4/3]',
-    ]}
-  >
+<article
+  class="group relative overflow-hidden rounded-[1.25rem] border rule bg-card"
+  data-reveal
+  style={`--reveal-delay:${delay}ms`}
+  data-categories={project.categories.join('|')}
+>
+  <div class:list={['art-zoom relative', tall ? 'aspect-[4/5]' : 'aspect-[4/3.4]']}>
     <ProjectArt variant={project.art} uid={`art-${project.slug}`} label={`Abstract artwork for the concept project: ${project.title}`} />
-    <span class="absolute left-4 top-4 rounded-full bg-paper/85 px-3 py-1 text-xs font-medium text-ink backdrop-blur">Concept project</span>
-  </div>
-  <div class="mt-5 flex items-start justify-between gap-6">
-    <div>
-      <p class="text-xs uppercase tracking-[0.16em] text-muted">{project.categories.join(' · ')} — {project.sector}</p>
-      <Heading class:list={['mt-2 font-display leading-tight', size === 'large' ? 'text-2xl md:text-3xl' : 'text-xl md:text-2xl']}>
+    <div class="pointer-events-none absolute inset-0" style="background: linear-gradient(to top, #000 0%, rgb(0 0 0 / 0.88) 34%, rgb(0 0 0 / 0.35) 62%, transparent 82%)"></div>
+    <span class="absolute left-4 top-4 rounded-full border border-white/15 bg-black/60 px-3 py-1 text-[0.6875rem] font-medium uppercase tracking-[0.16em] text-fg backdrop-blur">Concept</span>
+    <div class="absolute inset-x-0 bottom-0 p-5 md:p-6">
+      <p class="text-[0.6875rem] uppercase tracking-[0.16em] text-muted">{num && `${num} — `}{project.categories.join(' · ')}</p>
+      <Heading class="mt-2 text-xl leading-tight md:text-2xl">
         <a href={`/work/${project.slug}/`} class="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none">
           {project.title}
         </a>
       </Heading>
-      <p class="mt-2 max-w-prose text-sm text-muted">{project.summary}</p>
+      <p class="mt-2 line-clamp-2 max-w-prose text-sm text-muted">{project.summary}</p>
     </div>
-    <span
-      aria-hidden="true"
-      class="mt-6 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border rule transition-colors group-hover:border-transparent group-hover:bg-cta group-hover:text-on-cta"
-    >
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12L12 4M5 4h7v7"></path></svg>
-    </span>
   </div>
 </article>
 
 <style>
-  /* Keep a visible focus ring around the whole card when the stretched link is focused */
   article:has(a:focus-visible) {
-    outline: 2px solid var(--accent-text);
-    outline-offset: 8px;
-    border-radius: 1.5rem;
+    outline: 2px solid var(--focus);
+    outline-offset: 4px;
   }
 </style>

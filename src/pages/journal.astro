@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { journal } from '../data/journal';
+
+// Placeholder: kept out of search results until real articles exist.
+const isEmpty = journal.length === 0;
+---
+
+<BaseLayout
+  title="Journal"
+  description="Notes from Copper Design on brand identity, graphic design, AI creative and motion. First articles coming soon."
+  noindex={isEmpty}
+>
+  <PageHero eyebrow="Journal" lines={['Notes from', 'the studio']} intro="Process notes, behind-the-scenes and thinking on design and AI." />
+
+  <section class="container-x mt-14" aria-label="Articles">
+    {
+      isEmpty ? (
+        <div class="card flex flex-col items-start gap-6 p-8 md:flex-row md:items-center md:justify-between md:p-12" data-reveal>
+          <div>
+            <p class="eyebrow eyebrow-plain">Coming soon</p>
+            <p class="mt-4 max-w-xl text-2xl font-medium" style="font-family: var(--font-heading)">The first articles are being written.</p>
+            <p class="mt-3 max-w-xl text-muted">In the meantime, the best way to see how we think is the work.</p>
+          </div>
+          <a href="/work/" class="btn btn-ghost shrink-0">View portfolio</a>
+        </div>
+      ) : (
+        <ul class="divide-y divide-line border-y rule">
+          {journal.map((j) => (
+            <li class="grid gap-2 py-8 md:grid-cols-12" data-reveal>
+              <time class="text-sm text-subtle md:col-span-3" datetime={j.date}>{j.date}</time>
+              <div class="md:col-span-9">
+                <h2 class="text-2xl font-medium">{j.title}</h2>
+                <p class="mt-2 text-muted">{j.summary}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+
+  <CtaBand />
+</BaseLayout>

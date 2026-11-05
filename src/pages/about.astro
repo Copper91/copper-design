@@ -1,53 +1,69 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
 import CtaBand from '../components/CtaBand.astro';
+import { aiPrinciples } from '../data/home';
+import { monogram } from '../data/logo';
 import { bookCallHref } from '../data/site';
 
 const values = [
-  { title: 'Craft over volume', text: 'We would rather make fewer things properly. Every file we hand over has been checked, named and prepared for where it will be used.' },
-  { title: 'Honest about tools', text: 'We use AI where it genuinely helps and say so. We don’t hide it, and we don’t let it make the decisions.' },
-  { title: 'Clear from day one', text: 'Scope, price and timeline are agreed in writing before design starts. Feedback rounds are structured, so projects finish on time.' },
-  { title: 'Built to be used', text: 'Good design survives contact with real life — small screens, cheap printers, busy teams. We design for that.' },
+  { title: 'Intentional', text: 'Every decision has a reason. We would rather make fewer things properly than many things loudly.' },
+  { title: 'Distinctive', text: 'Work that refuses to blend in, built on an idea that is yours, not a template or a trend.' },
+  { title: 'Honest about tools', text: 'We use AI where it genuinely helps and say so. People make the decisions and finish the work.' },
+  { title: 'Built to last', text: 'Design that survives real life: small screens, cheap printers, busy teams and the years after launch.' },
 ];
 ---
 
 <BaseLayout
   title="About"
-  description="About Copper Design: a graphic and AI-assisted design studio that pairs fast AI exploration with hand-finished craft."
+  description="About Copper Design: a creative studio where creativity meets technology, across branding, graphic design, AI creative and motion."
 >
-  <section class="container-x pt-16 md:pt-28" aria-labelledby="page-title">
-    <p class="eyebrow" data-reveal>About</p>
-    <h1 id="page-title" class="mt-4 max-w-[16ch] font-display text-5xl leading-[0.95] md:text-8xl" data-reveal>A studio named after a material that ages well.</h1>
-  </section>
+  <PageHero eyebrow="About Copper Design" lines={['Where creativity', 'meets technology']} />
 
   <section class="container-x mt-16 grid gap-12 md:mt-24 md:grid-cols-12" aria-labelledby="story-title">
     <div class="md:col-span-5" data-reveal>
-      <div class="relative aspect-square overflow-hidden rounded-3xl border rule" aria-hidden="true">
-        <div class="absolute inset-0" style="background: var(--metal)"></div>
-        <div class="absolute inset-[18%] rounded-full border border-[#1E1A17]/40"></div>
-        <div class="absolute inset-[32%] rounded-full bg-[#1E1A17]/85"></div>
+      <div class="card relative flex aspect-square items-center justify-center overflow-hidden">
+        <div aria-hidden="true" class="absolute inset-0 bg-[radial-gradient(closest-side,rgb(255_255_255/0.08),transparent)]"></div>
+        <svg viewBox={monogram.viewBox} class="relative h-1/2 w-auto text-fg" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d={monogram.d}></path>
+        </svg>
       </div>
-      <!-- TODO(owner): replace with a real studio or founder photo (export as AVIF/WebP via astro:assets). -->
+      <!-- TODO(owner): optionally replace with a real studio or founder photo (export as AVIF/WebP via astro:assets). -->
     </div>
-    <div class="space-y-6 text-lg text-muted md:col-span-6 md:col-start-7" data-reveal>
-      <h2 id="story-title" class="font-display text-3xl text-ink md:text-5xl">Why Copper</h2>
-      <p>Copper is worked by hand, holds its shape and develops character over time. That’s what we want for the brands we design: well made, durable, and more distinctive the longer they’re used.</p>
-      <p>Copper Design is a graphic design studio for businesses that need work that looks considered — identities, social content, print and web visuals. We use AI tools to explore more ideas, faster, and keep the craft, judgement and finishing firmly human.</p>
+    <div class="space-y-6 text-muted md:col-span-6 md:col-start-7 md:text-lg" data-reveal>
+      <h2 id="story-title" class="section-title text-fg">The studio</h2>
+      <!-- TODO(owner): confirm this description (taken from your style reference). -->
+      <p>Copper Design is a Black-owned creative studio working across graphic design, branding, illustration, motion and editorial. Every project begins with a clear idea and a point of view, then moves through thoughtful composition and craft into visuals that connect with real audiences, and hold up long after launch.</p>
+      <p>We pair that craft with AI tools, using them to explore more ideas, faster, while the judgement, taste and finishing stay firmly human.</p>
       <p>
         <!-- TODO(owner): add founder name, background, location and a short personal story. Do not publish until supplied. -->
-        The person behind the studio, their background and where we’re based will be introduced here soon.
+        The person behind the studio, their background and where we are based will be introduced here soon.
       </p>
       <a href={bookCallHref} class="btn btn-primary">Book a call</a>
     </div>
   </section>
 
-  <section class="container-x mt-24 md:mt-36" aria-labelledby="values-title">
-    <p class="eyebrow" data-reveal>What we believe</p>
-    <h2 id="values-title" class="mt-4 font-display text-4xl md:text-6xl" data-reveal>Four things we hold to.</h2>
-    <ul class="mt-12 grid gap-4 md:grid-cols-2">
+  <section class="container-x mt-32 md:mt-44" aria-labelledby="ai-title">
+    <SectionHeading id="ai-title" eyebrow="How AI fits our process" title="A faster sketchbook. Never the designer." />
+    <!-- TODO(owner): confirm these AI-use commitments match how you work. -->
+    <ul class="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      {aiPrinciples.map((a, i) => (
+        <li class="card p-6 md:p-7" data-reveal style={`--reveal-delay:${i * 80}ms`}>
+          <span class="text-xs text-subtle" aria-hidden="true">0{i + 1}</span>
+          <h3 class="mt-5 text-lg font-medium">{a.title}</h3>
+          <p class="mt-3 text-sm text-muted">{a.text}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="container-x mt-32 md:mt-44" aria-labelledby="values-title">
+    <SectionHeading id="values-title" eyebrow="What we believe" title="Four things we hold to." />
+    <ul class="mt-14 grid gap-3 md:grid-cols-2">
       {values.map((v, i) => (
-        <li class="rounded-3xl border rule bg-surface p-6 md:p-10" data-reveal style={`--reveal-delay:${(i % 2) * 90}ms`}>
-          <h3 class="font-display text-2xl md:text-3xl">{v.title}</h3>
+        <li class="card p-6 md:p-10" data-reveal style={`--reveal-delay:${(i % 2) * 80}ms`}>
+          <h3 class="text-2xl font-medium">{v.title}</h3>
           <p class="mt-3 text-muted">{v.text}</p>
         </li>
       ))}

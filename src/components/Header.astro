@@ -1,68 +1,58 @@
 ---
 import Logo from './Logo.astro';
-import ThemeToggle from './ThemeToggle.astro';
 import { nav, startProjectHref } from '../data/site';
 
 const path = Astro.url.pathname;
 const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 ---
 
-<header
-  class="sticky top-0 z-50 border-b rule bg-paper/80 backdrop-blur-md supports-[backdrop-filter]:bg-paper/70"
-  data-header
->
-  <div class="container-x flex h-16 items-center justify-between gap-4 md:h-20">
-    <a href="/" class="rounded-md" aria-label="Copper Design — home">
+<header class="sticky top-0 z-50 border-b rule bg-bg/75 backdrop-blur-md" transition:animate="none">
+  <div class="container-x flex h-16 items-center justify-between gap-6 md:h-[4.5rem]">
+    <a href="/" class="rounded-md" aria-label="Copper Design, home">
       <Logo />
     </a>
 
-    <nav aria-label="Main" class="hidden md:block">
-      <ul class="flex items-center gap-8 text-sm">
-        {
-          nav.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                class:list={['link-underline py-1', isCurrent(item.href) ? 'text-accent' : 'text-ink/80 hover:text-ink']}
-                aria-current={isCurrent(item.href) ? 'page' : undefined}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-
-    <div class="flex items-center gap-2">
-      <ThemeToggle />
-      <a href={startProjectHref} class="btn btn-primary hidden sm:inline-flex">Start a project</a>
+    <div class="flex items-center gap-8">
+      <nav aria-label="Main" class="hidden lg:block">
+        <ul class="flex items-center gap-8">
+          {
+            nav.map((item) => (
+              <li>
+                <a href={item.href} class="nav-link py-2" aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <a href={startProjectHref} class="btn btn-ghost btn-caps hidden sm:inline-flex">Start a project</a>
       <button
         type="button"
-        class="inline-flex h-11 w-11 items-center justify-center rounded-full border rule md:hidden"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line-strong lg:hidden"
         aria-expanded="false"
         aria-controls="mobile-menu"
         data-menu-toggle
       >
         <span class="sr-only">Menu</span>
         <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" class="menu-icon-open">
-          <path d="M3 7h14M3 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+          <path d="M3 7h14M3 13h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
         </svg>
         <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" class="menu-icon-close hidden">
-          <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+          <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
         </svg>
       </button>
     </div>
   </div>
 
-  <nav id="mobile-menu" aria-label="Mobile" class="hidden border-t rule md:hidden" data-menu>
-    <ul class="container-x flex flex-col py-4">
+  <nav id="mobile-menu" aria-label="Mobile" class="hidden border-t rule lg:hidden" data-menu>
+    <ul class="container-x flex flex-col py-6">
       {
         nav.map((item) => (
           <li>
             <a
               href={item.href}
-              class:list={['block py-3 font-display text-3xl', isCurrent(item.href) && 'text-accent']}
+              class="display block py-2.5 text-4xl"
               aria-current={isCurrent(item.href) ? 'page' : undefined}
             >
               {item.label}
@@ -70,29 +60,39 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWi
           </li>
         ))
       }
-      <li class="pt-4">
-        <a href={startProjectHref} class="btn btn-primary w-full">Start a project</a>
+      <li class="pt-6">
+        <a href={startProjectHref} class="btn btn-primary btn-caps w-full">Start a project</a>
       </li>
     </ul>
   </nav>
 </header>
 
 <script>
-  const btn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
-  const menu = document.querySelector<HTMLElement>('[data-menu]');
-  if (btn && menu) {
+  // Re-initialise after every client-side navigation (the header is swapped with the page).
+  let controller: AbortController | undefined;
+  document.addEventListener('astro:page-load', () => {
+    controller?.abort();
+    controller = new AbortController();
+    const { signal } = controller;
+    const btn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+    const menu = document.querySelector<HTMLElement>('[data-menu]');
+    if (!btn || !menu) return;
     const set = (open: boolean) => {
       btn.setAttribute('aria-expanded', String(open));
       menu.classList.toggle('hidden', !open);
       btn.querySelector('.menu-icon-open')?.classList.toggle('hidden', open);
       btn.querySelector('.menu-icon-close')?.classList.toggle('hidden', !open);
     };
-    btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
-        set(false);
-        btn.focus();
-      }
-    });
-  }
+    btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'), { signal });
+    document.addEventListener(
+      'keydown',
+      (e) => {
+        if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+          set(false);
+          btn.focus();
+        }
+      },
+      { signal },
+    );
+  });
 </script>

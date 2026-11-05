@@ -5,17 +5,15 @@ interface Props {
   intro?: string;
   id?: string;
   as?: 'h1' | 'h2';
-  align?: 'left' | 'split';
 }
-const { eyebrow, title, intro, id, as = 'h2', align = 'split' } = Astro.props;
+const { eyebrow, title, intro, id, as = 'h2' } = Astro.props;
 const H = as;
 ---
 
-<div class:list={['grid gap-6', align === 'split' && 'md:grid-cols-12 md:items-end']} data-reveal>
-  <div class:list={[align === 'split' && 'md:col-span-7']}>
+<div class="grid gap-6 md:grid-cols-12 md:items-end" data-reveal>
+  <div class="md:col-span-7">
     {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-    <H id={id} class="mt-4 font-display text-4xl leading-[1.02] md:text-6xl">{title}</H>
+    <H id={id} class="section-title mt-6 max-w-[18ch]">{title}</H>
   </div>
-  {intro && <p class:list={['max-w-xl text-base text-muted md:text-lg', align === 'split' && 'md:col-span-5']}>{intro}</p>}
-  <slot />
+  {intro && <p class="max-w-md text-base text-muted md:col-span-5 md:justify-self-end">{intro}</p>}
 </div>

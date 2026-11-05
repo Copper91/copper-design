@@ -1,21 +1,19 @@
 ---
-// Placeholder wordmark. TODO(owner): replace with the final logo files when available.
-interface Props { class?: string; uid?: string }
-const { class: className = '', uid = 'logo' } = Astro.props;
-const gid = `${uid}-metal`;
+// Owner's logo, traced from brand/logo-original.jpg (see src/data/logo.ts).
+// variant "inline": small monogram + wordmark side by side (nav/footer).
+import { monogram, wordmark } from '../data/logo';
+interface Props { class?: string; size?: 'sm' | 'md' }
+const { class: className = '', size = 'sm' } = Astro.props;
+const markH = size === 'md' ? 'h-9' : 'h-7';
+const wordH = size === 'md' ? 'h-3.5' : 'h-[11px]';
 ---
 
-<span class:list={['inline-flex items-center gap-2.5', className]}>
-  <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-    <defs>
-      <linearGradient id={gid} x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#8C4E22" />
-        <stop offset="0.45" stop-color="#E6B689" />
-        <stop offset="1" stop-color="#B87333" />
-      </linearGradient>
-    </defs>
-    <circle cx="16" cy="16" r="15" fill={`url(#${gid})`} />
-    <path d="M22.5 10.6a8 8 0 1 0 0 10.8" fill="none" stroke="#14110F" stroke-width="2.6" stroke-linecap="round" />
+<span class:list={['inline-flex items-center gap-3 text-fg', className]}>
+  <svg viewBox={monogram.viewBox} class:list={[markH, 'w-auto shrink-0']} aria-hidden="true" focusable="false" fill="currentColor">
+    <path fill-rule="evenodd" d={monogram.d}></path>
   </svg>
-  <span class="font-display text-lg font-medium tracking-tight">Copper<span class="text-muted font-normal"> Design</span></span>
+  <svg viewBox={wordmark.viewBox} class:list={[wordH, 'w-auto']} aria-hidden="true" focusable="false" fill="currentColor">
+    <path fill-rule="evenodd" d={wordmark.d}></path>
+  </svg>
+  <span class="sr-only">Copper Design</span>
 </span>

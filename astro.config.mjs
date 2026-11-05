@@ -11,7 +11,8 @@ export default defineConfig({
   trailingSlash: 'always',
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/404') && !page.includes('/contact/thanks'),
+      // TODO(owner): remove the /journal/ exclusion once real articles are published (the page is noindex while empty).
+      filter: (page) => !page.includes('/404') && !page.includes('/contact/thanks') && !page.includes('/journal/'),
     }),
   ],
   vite: {

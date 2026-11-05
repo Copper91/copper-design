@@ -1,9 +1,9 @@
 // Sample / concept projects. These are self-initiated studies created to show approach,
 // not client work. TODO(owner): replace with real case studies (with client permission) as they become available.
 
-export type Category = 'Branding' | 'Social' | 'Marketing' | 'Web & UI' | 'AI imagery';
+export type Category = 'Brand Identity' | 'Graphic Design' | 'AI Creative' | 'Motion Graphics';
 
-export const categories: Category[] = ['Branding', 'Social', 'Marketing', 'Web & UI', 'AI imagery'];
+export const categories: Category[] = ['Brand Identity', 'Graphic Design', 'AI Creative', 'Motion Graphics'];
 
 export type Project = {
   slug: string;
@@ -23,7 +23,7 @@ export const projects: Project[] = [
     slug: 'coffee-roaster-identity',
     title: 'Identity for a small-batch coffee roaster',
     sector: 'Food & drink',
-    categories: ['Branding'],
+    categories: ['Brand Identity'],
     art: 'arcs',
     year: '2026',
     summary: 'A warm, roast-inspired identity built around a single arc mark that scales from bag label to shopfront.',
@@ -40,7 +40,7 @@ export const projects: Project[] = [
     slug: 'fitness-studio-social-kit',
     title: 'Launch social kit for a boutique fitness studio',
     sector: 'Health & fitness',
-    categories: ['Social'],
+    categories: ['Graphic Design'],
     art: 'grid',
     year: '2026',
     summary: 'A modular grid of post and story templates that turns a class timetable into a feed people stop for.',
@@ -57,7 +57,7 @@ export const projects: Project[] = [
     slug: 'arts-festival-posters',
     title: 'Poster series for a community arts festival',
     sector: 'Arts & culture',
-    categories: ['Marketing'],
+    categories: ['Graphic Design'],
     art: 'poster',
     year: '2025',
     summary: 'A bold typographic poster system with one rule: every venue gets its own colourway, the layout never changes.',
@@ -71,27 +71,27 @@ export const projects: Project[] = [
     deliverables: ['A2 poster series', 'Folded programme', 'Wayfinding signs', 'Social cut-downs'],
   },
   {
-    slug: 'fintech-landing-visuals',
-    title: 'Landing page visuals for a budgeting app',
+    slug: 'budgeting-app-product-reveal',
+    title: 'Animated product reveal for a budgeting app',
     sector: 'Finance & technology',
-    categories: ['Web & UI'],
+    categories: ['Motion Graphics'],
     art: 'interface',
     year: '2026',
-    summary: 'Calm, trustworthy interface visuals and a landing page that explain the product in three scrolls.',
+    summary: 'A calm 20-second launch animation that introduces an app in three moves, cut down for every social format.',
     brief:
-      'Concept a landing page and visual language for an imagined personal-budgeting app aimed at people who find money apps stressful.',
+      'Concept a launch reveal for an imagined personal-budgeting app aimed at people who find money apps stressful: short, clear, and reusable across ads and social.',
     approach: [
-      'Replaced the usual neon dashboards with soft, warm surfaces and plain-English labels.',
-      'Designed device mock-ups and spot illustrations as one consistent family.',
-      'Delivered a component kit and annotated Figma file for build.',
+      'Storyboarded the reveal around three plain-English ideas instead of a feature list.',
+      'Designed interface frames and UI elements as one consistent visual family, ready for animation.',
+      'Planned 16:9, 1:1 and 9:16 cut-downs with safe areas from the start.',
     ],
-    deliverables: ['Landing page design', 'UI style kit', 'Icon set', 'Figma handoff'],
+    deliverables: ['Storyboard and styleframes', 'Hero animation', 'Social cut-downs', 'Animated logo sting'],
   },
   {
     slug: 'botanical-skincare-concepts',
     title: 'AI-assisted concept imagery for a botanical skincare range',
     sector: 'Beauty',
-    categories: ['AI imagery'],
+    categories: ['AI Creative'],
     art: 'bloom',
     year: '2026',
     summary: 'Directed AI concept imagery to explore product worlds before committing to a photoshoot.',
@@ -108,7 +108,7 @@ export const projects: Project[] = [
     slug: 'architecture-practice-refresh',
     title: 'Identity refresh and social templates for an architecture practice',
     sector: 'Architecture',
-    categories: ['Branding', 'Social'],
+    categories: ['Brand Identity', 'Graphic Design'],
     art: 'waves',
     year: '2025',
     summary: 'A quieter, more confident identity and a social system that lets the buildings do the talking.',

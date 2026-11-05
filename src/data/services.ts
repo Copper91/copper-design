@@ -1,5 +1,7 @@
+// The four disciplines (from the owner's style reference).
 export type Service = {
   slug: string;
+  number: string;
   title: string;
   short: string;
   summary: string;
@@ -10,73 +12,42 @@ export type Service = {
 export const services: Service[] = [
   {
     slug: 'brand-identity',
-    title: 'Brand identity & logos',
-    short: 'Logos, type, colour and the rules that hold them together.',
+    number: '01',
+    title: 'Brand Identity',
+    short: 'Logos, visual systems, typography and brand guidelines built to scale.',
     summary:
-      'A brand that looks like it means it. We start with what makes you different, then build a mark, a palette and a typographic voice that carry that difference everywhere they appear.',
-    deliverables: [
-      'Logo suite (primary, secondary, icon)',
-      'Colour palette and type pairing',
-      'Brand guidelines document',
-      'Business card and letterhead files',
-      'Export pack for web, print and social',
-    ],
-    goodFor: 'New businesses, rebrands and refreshes that have outgrown a DIY logo.',
+      'A brand that looks like it means it. We find what makes you different, then build a mark, a type system and a set of rules that carry that difference everywhere it appears, from a favicon to a billboard.',
+    deliverables: ['Logo suite and monogram', 'Colour and typography system', 'Brand guidelines', 'Stationery and templates', 'Export pack for web, print and social'],
+    goodFor: 'New businesses, rebrands, and brands that have outgrown a DIY logo.',
   },
   {
-    slug: 'social-media',
-    title: 'Social media graphics',
-    short: 'Template systems and campaign assets that stay on-brand at speed.',
+    slug: 'graphic-design',
+    number: '02',
+    title: 'Graphic Design',
+    short: 'Campaigns, posters, print, packaging and social media assets.',
     summary:
-      'Feeds that look considered without taking all week. We design flexible template systems and launch sets you can reuse, so every post feels like it came from the same place.',
-    deliverables: [
-      'Post, carousel and story templates',
-      'Launch or campaign asset sets',
-      'Profile and highlight graphics',
-      'Editable files for Canva or Figma',
-    ],
-    goodFor: 'Teams posting often who want consistency without a full-time designer.',
+      'The everyday surfaces where a brand is won or lost. We design campaigns, print and social content with editorial care, so everything you put out looks like it came from the same place.',
+    deliverables: ['Campaign key visuals', 'Posters, flyers and print', 'Packaging and labels', 'Social media template systems', 'Pitch and sales decks'],
+    goodFor: 'Launches, events, product drops and teams that post often.',
   },
   {
-    slug: 'marketing-materials',
-    title: 'Marketing & print',
-    short: 'Brochures, posters, decks and packaging with real presence.',
+    slug: 'ai-creative',
+    number: '03',
+    title: 'AI Creative',
+    short: 'AI concept art, prompt engineering, editorial imagery and visual ideation.',
     summary:
-      'Things people hold, pin up and present. We design printed and digital collateral with the care of an editorial layout and the clarity of a good sales pitch.',
-    deliverables: [
-      'Brochures, flyers and posters',
-      'Pitch and sales decks',
-      'Packaging and labels',
-      'Print-ready files and supplier specs',
-    ],
-    goodFor: 'Launches, events, trade shows and sales teams.',
+      'AI tools are fast; taste is not automatic. We direct, curate and retouch AI-generated imagery so it serves your brand instead of looking like everyone else’s prompt, and we tell you where AI was used.',
+    deliverables: ['Concept art and moodboards', 'Editorial and campaign imagery', 'Prompt and style libraries', 'Hand retouching of selects', 'A note of the tools used for each asset'],
+    goodFor: 'Early concepts, fast campaigns, and visualising ideas before a shoot.',
   },
   {
-    slug: 'web-ui',
-    title: 'Web & UI visuals',
-    short: 'Landing pages, interface visuals and product imagery.',
+    slug: 'motion-graphics',
+    number: '04',
+    title: 'Motion Graphics',
+    short: 'Commercials, animated logos, social content and product reveals.',
     summary:
-      'Screens that look as good as the product works. We design landing pages, UI visual language, icons and illustrations, handed over in a form your developers can build from.',
-    deliverables: [
-      'Landing page and website design',
-      'UI visual style and component kit',
-      'Icon sets and spot illustrations',
-      'Developer-ready Figma handoff',
-    ],
-    goodFor: 'Startups, product teams and businesses refreshing their site.',
-  },
-  {
-    slug: 'ai-imagery',
-    title: 'AI imagery & concepts',
-    short: 'Directed, refined AI visuals — moodboards to finished campaign imagery.',
-    summary:
-      'AI image tools are fast; good taste is not automatic. We direct, curate and retouch AI-generated imagery so it serves your brand rather than looking like everyone else’s prompt.',
-    deliverables: [
-      'Concept moodboards and style frames',
-      'Product and lifestyle concept imagery',
-      'Campaign key visuals, retouched by hand',
-      'A written note of tools used for each asset',
-    ],
-    goodFor: 'Early-stage concepts, campaigns on tight timelines, and visualising ideas before a shoot.',
+      'Movement makes a brand feel alive. We animate logos, build short social and product films, and design motion systems that keep every clip on-brand.',
+    deliverables: ['Animated logo stings', 'Social and short-form video', 'Product reveal animations', 'Motion guidelines', 'Exports for every platform'],
+    goodFor: 'Launches, ads, social channels and product announcements.',
   },
 ];

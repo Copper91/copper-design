@@ -1,18 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
 ---
 
 <BaseLayout title="Page not found" description="The page you were looking for could not be found." noindex>
-  <section class="container-x py-24 md:py-40" aria-labelledby="page-title">
-    <p class="eyebrow">Error 404</p>
-    <h1 id="page-title" class="mt-4 max-w-[14ch] font-display text-5xl leading-[0.95] md:text-8xl">
-      This page has <span class="metal-text">oxidised</span>.
-    </h1>
-    <p class="mt-8 max-w-xl text-lg text-muted">It may have moved, or the link might be out of date. Try one of these instead.</p>
-    <div class="mt-10 flex flex-wrap gap-3">
+  <PageHero eyebrow="Error 404" lines={['Signal', 'lost']} intro="This page may have moved, or the link might be out of date. Try one of these instead.">
+    <div class="mt-10 flex flex-wrap gap-3 pb-24">
       <a href="/" class="btn btn-primary">Home</a>
       <a href="/work/" class="btn btn-ghost">Work</a>
       <a href="/contact/" class="btn btn-ghost">Contact</a>
     </div>
-  </section>
+  </PageHero>
 </BaseLayout>

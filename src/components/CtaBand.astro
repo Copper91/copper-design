@@ -1,23 +1,25 @@
 ---
 import { startProjectHref, bookCallHref } from '../data/site';
-interface Props { title?: string; text?: string }
+interface Props { lines?: string[]; text?: string }
 const {
-  title = 'Have something that needs to look right?',
-  text = 'Tell us what you’re working on. We reply with a few questions, a rough timeline and the next step — no obligation.',
+  lines = ['Let’s build', 'something', 'exceptional'],
+  text = 'Whether you’re launching a brand, producing a campaign, or exploring AI-driven visuals, Copper Design is ready to bring your vision to life.',
 } = Astro.props;
 ---
 
-<section class="container-x mt-24 md:mt-36" aria-labelledby="cta-title">
-  <div class="relative overflow-hidden rounded-[2rem] border rule bg-surface px-6 py-16 md:px-16 md:py-24" data-reveal>
-    <div aria-hidden="true" class="pointer-events-none absolute -right-32 -top-32 h-[28rem] w-[28rem] rounded-full opacity-40 blur-3xl" style="background: var(--metal)"></div>
-    <div class="relative max-w-3xl">
-      <p class="eyebrow">Start a project</p>
-      <h2 id="cta-title" class="mt-4 font-display text-4xl leading-[1.02] md:text-7xl">{title}</h2>
-      <p class="mt-6 max-w-xl text-base text-muted md:text-lg">{text}</p>
-      <div class="mt-10 flex flex-wrap gap-3">
-        <a href={startProjectHref} class="btn btn-primary px-8 text-base">Start a project</a>
-        <a href={bookCallHref} class="btn btn-ghost px-8 text-base">Book a call</a>
-      </div>
+<section class="relative mt-32 overflow-hidden py-24 md:mt-44 md:py-32" aria-labelledby="cta-title">
+  <div aria-hidden="true" class="pointer-events-none absolute left-1/2 top-1/2 h-[36rem] w-[60rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(255_255_255/0.07),transparent)]"></div>
+  <div class="container-x relative text-center" data-reveal>
+    <h2 id="cta-title" class="display mx-auto text-[clamp(2.6rem,8.5vw,6.5rem)]">
+      {lines.map((l) => <span class="block">{l}</span>)}
+    </h2>
+    <p class="mx-auto mt-8 max-w-xl text-base text-muted">{text}</p>
+    <div class="mt-10 flex flex-wrap items-center justify-center gap-3">
+      <a href={startProjectHref} class="btn btn-primary">
+        Start your project
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"></path></svg>
+      </a>
+      <a href={bookCallHref} class="btn btn-ghost">Book a call</a>
     </div>
   </div>
 </section>

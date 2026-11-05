@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { projects, categories } from '../../data/projects';
@@ -7,54 +8,57 @@ import { projects, categories } from '../../data/projects';
 
 <BaseLayout
   title="Work"
-  description="Sample concept projects from Copper Design: brand identity, social media kits, poster campaigns, web visuals and AI-assisted concept imagery."
+  description="Sample concept projects from Copper Design across brand identity, graphic design, AI creative and motion graphics."
 >
-  <section class="container-x pt-16 md:pt-28" aria-labelledby="page-title">
-    <p class="eyebrow" data-reveal>Work</p>
-    <h1 id="page-title" class="mt-4 max-w-[16ch] font-display text-5xl leading-[0.95] md:text-8xl" data-reveal>Concept projects, built end to end.</h1>
-    <p class="mt-8 max-w-2xl text-lg text-muted" data-reveal>
-      Every piece here is a self-initiated sample project — an imagined brief, worked through properly — so you can see how we approach a problem. Real client case studies will be added with permission.
-      <!-- TODO(owner): replace sample projects with real case studies as they are approved. -->
-    </p>
-  </section>
+  <PageHero
+    eyebrow="Work"
+    lines={['Selected', 'work']}
+    intro="Every piece here is a self-initiated concept project (an imagined brief, worked through properly) so you can see how we approach a problem. Real client case studies will be added with permission."
+  />
+  <!-- TODO(owner): replace sample projects with real case studies as they are approved. -->
 
-  <section class="container-x mt-12 md:mt-16" aria-label="Projects">
-    <div class="flex flex-wrap items-center gap-2" role="group" aria-label="Filter projects by category" data-filters hidden>
+  <section class="container-x mt-14" aria-label="Projects">
+    <div class="flex flex-wrap items-center gap-2" role="group" aria-label="Filter projects by discipline" data-filters hidden>
       <button type="button" class="filter-btn" aria-pressed="true" data-filter="all">All</button>
       {categories.map((c) => <button type="button" class="filter-btn" aria-pressed="false" data-filter={c}>{c}</button>)}
     </div>
     <p class="sr-only" aria-live="polite" data-filter-status></p>
 
-    <div class="mt-10 grid gap-x-6 gap-y-14 md:grid-cols-2 lg:grid-cols-3" data-grid>
-      {projects.map((p, i) => <ProjectCard project={p} headingLevel="h2" delay={(i % 3) * 90} />)}
+    <div class="mt-10 grid gap-3 md:grid-cols-2 lg:grid-cols-3" data-grid>
+      {projects.map((p, i) => <ProjectCard project={p} index={i} headingLevel="h2" delay={(i % 3) * 80} />)}
     </div>
-    <p class="mt-10 text-muted" data-empty hidden>No projects in this category yet.</p>
+    <p class="mt-10 text-muted" data-empty hidden>No projects in this discipline yet.</p>
   </section>
 
-  <CtaBand title="Want something like this for your brand?" />
+  <CtaBand lines={['Want this', 'for your brand?']} />
 </BaseLayout>
 
 <style>
   .filter-btn {
     min-height: 44px;
-    padding: 0.55rem 1.1rem;
+    padding: 0.55rem 1.15rem;
     border-radius: 999px;
-    border: 1px solid var(--line);
-    font-size: 0.875rem;
-    color: var(--ink);
+    border: 1px solid var(--line-strong);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
     transition: background-color 0.2s, color 0.2s, border-color 0.2s;
   }
-  .filter-btn:hover { border-color: var(--accent-text); }
-  .filter-btn[aria-pressed='true'] { background: var(--cta-bg); color: var(--cta-fg); border-color: transparent; }
+  .filter-btn:hover { border-color: var(--fg); color: var(--fg); }
+  .filter-btn[aria-pressed='true'] { background: var(--btn-bg); color: var(--btn-fg); border-color: transparent; }
 </style>
 
 <script>
   // Progressive enhancement: filters only appear when JS runs; without JS all projects are listed.
-  const bar = document.querySelector<HTMLElement>('[data-filters]');
-  const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-grid] > article'));
-  const status = document.querySelector<HTMLElement>('[data-filter-status]');
-  const empty = document.querySelector<HTMLElement>('[data-empty]');
-  if (bar) {
+  // Re-initialised on every client-side navigation.
+  document.addEventListener('astro:page-load', () => {
+    const bar = document.querySelector<HTMLElement>('[data-filters]');
+    if (!bar) return;
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-grid] > article'));
+    const status = document.querySelector<HTMLElement>('[data-filter-status]');
+    const empty = document.querySelector<HTMLElement>('[data-empty]');
     bar.hidden = false;
     const buttons = Array.from(bar.querySelectorAll<HTMLButtonElement>('[data-filter]'));
     const apply = (f: string) => {
@@ -73,10 +77,10 @@ import { projects, categories } from '../../data/projects';
       const url = new URL(location.href);
       if (f === 'all') url.searchParams.delete('filter');
       else url.searchParams.set('filter', f);
-      history.replaceState(null, '', url);
+      history.replaceState(history.state, '', url);
     };
     buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.filter ?? 'all')));
     const initial = new URL(location.href).searchParams.get('filter');
     if (initial && buttons.some((b) => b.dataset.filter === initial)) apply(initial);
-  }
+  });
 </script>

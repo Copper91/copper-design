@@ -1,64 +1,79 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import ProcessSteps from '../components/ProcessSteps.astro';
 import Packages from '../components/Packages.astro';
+import Faq from '../components/Faq.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { services } from '../data/services';
+import { faqs } from '../data/home';
 
-const ld = {
-  '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  itemListElement: services.map((s, i) => ({
-    '@type': 'ListItem',
-    position: i + 1,
-    item: { '@type': 'Service', name: s.title, description: s.summary, provider: { '@type': 'Organization', name: 'Copper Design' } },
-  })),
-};
+const ld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: services.map((s, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: { '@type': 'Service', name: s.title, description: s.summary, provider: { '@type': 'Organization', name: 'Copper Design' } },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
 ---
 
 <BaseLayout
   title="Services"
-  description="Brand identity and logos, social media graphics, marketing and print, web and UI visuals, and AI concept imagery — what Copper Design offers and what you get."
+  description="Brand identity, graphic design, AI creative and motion graphics from Copper Design: what each discipline covers, what you get, packages and FAQ."
   jsonLd={ld}
 >
-  <section class="container-x pt-16 md:pt-28" aria-labelledby="page-title">
-    <p class="eyebrow" data-reveal>Services</p>
-    <h1 id="page-title" class="mt-4 max-w-[15ch] font-display text-5xl leading-[0.95] md:text-8xl" data-reveal>Design for every place your brand shows up.</h1>
-    <p class="mt-8 max-w-2xl text-lg text-muted" data-reveal>Pick one service or combine several. Each comes with a clear scope, a fixed quote and files ready to use.</p>
+  <PageHero eyebrow="Services" lines={['Four', 'disciplines']} intro="One studio, one standard. Pick a single discipline or combine them; each comes with a clear scope, a fixed quote and files ready to use.">
     <nav aria-label="Services on this page" class="mt-10 flex flex-wrap gap-2" data-reveal>
-      {services.map((s) => <a href={`#${s.slug}`} class="btn btn-ghost">{s.title}</a>)}
+      {services.map((s) => <a href={`#${s.slug}`} class="btn btn-ghost btn-caps">{s.title}</a>)}
     </nav>
-  </section>
+  </PageHero>
 
   <div class="container-x mt-16 md:mt-24">
-    {services.map((s, i) => (
+    {services.map((s) => (
       <section id={s.slug} class="grid gap-8 border-t rule py-14 md:grid-cols-12 md:py-20" aria-labelledby={`${s.slug}-title`} data-reveal>
-        <p class="font-display text-5xl text-accent md:col-span-2" aria-hidden="true">0{i + 1}</p>
+        <p class="text-sm text-subtle md:col-span-2" aria-hidden="true">{s.number}</p>
         <div class="md:col-span-5">
-          <h2 id={`${s.slug}-title`} class="font-display text-3xl leading-tight md:text-5xl">{s.title}</h2>
-          <p class="mt-5 text-lg text-muted">{s.summary}</p>
+          <h2 id={`${s.slug}-title`} class="section-title">{s.title}</h2>
+          <p class="mt-5 text-muted md:text-lg">{s.summary}</p>
           <p class="mt-6 text-sm"><span class="font-medium">Good for:</span> <span class="text-muted">{s.goodFor}</span></p>
         </div>
         <div class="md:col-span-4 md:col-start-9">
-          <h3 class="eyebrow">What you get</h3>
-          <ul class="mt-4 divide-y divide-[var(--line)] border-y rule">
-            {s.deliverables.map((d) => <li class="py-3 text-sm">{d}</li>)}
+          <h3 class="eyebrow eyebrow-plain">What you get</h3>
+          <ul class="mt-4 divide-y divide-line border-y rule">
+            {s.deliverables.map((d) => <li class="py-3 text-sm text-muted">{d}</li>)}
           </ul>
-          <a href={`/contact/?service=${s.slug}#enquiry`} class="btn btn-ghost mt-6">Enquire about this</a>
+          <a href={`/contact/?service=${s.slug}#enquiry`} class="btn btn-ghost mt-6">Enquire about {s.title}</a>
         </div>
       </section>
     ))}
   </div>
 
-  <section class="container-x mt-16 md:mt-24" aria-labelledby="process-title">
-    <SectionHeading id="process-title" eyebrow="Process" title="How every project runs." />
-    <div class="mt-12"><ProcessSteps /></div>
+  <section class="container-x mt-24 md:mt-32" aria-labelledby="process-title">
+    <SectionHeading id="process-title" eyebrow="Creative process" title="Five moves, from blank page to launch." />
+    <div class="mt-16"><ProcessSteps detailed /></div>
   </section>
 
-  <section class="container-x mt-24 md:mt-36" aria-labelledby="packages-title">
-    <SectionHeading id="packages-title" eyebrow="Packages" title="Common starting points." intro="Fixed quotes, agreed before any work starts." />
-    <div class="mt-12"><Packages /></div>
+  <section class="container-x mt-32 md:mt-44" aria-labelledby="packages-title" id="packages">
+    <SectionHeading id="packages-title" eyebrow="Packages" title="Common starting points." intro="Every project gets a fixed quote, agreed before any work starts." />
+    <div class="mt-14"><Packages /></div>
+  </section>
+
+  <section class="container-x mt-32 grid gap-12 md:mt-44 md:grid-cols-12" aria-labelledby="faq-title">
+    <div class="md:col-span-4" data-reveal>
+      <p class="eyebrow">FAQ</p>
+      <h2 id="faq-title" class="section-title mt-6">Good questions.</h2>
+    </div>
+    <div class="md:col-span-8"><Faq /></div>
   </section>
 
   <CtaBand />

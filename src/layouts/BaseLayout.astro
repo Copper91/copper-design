@@ -1,8 +1,9 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { site } from '../data/site';
+import { site, activeSocials } from '../data/site';
 
 interface Props {
   title: string;
@@ -13,7 +14,7 @@ interface Props {
 }
 
 const { title, description, ogImage = '/og-default.png', noindex = false, jsonLd } = Astro.props;
-const fullTitle = title === site.name ? `${site.name} — ${site.tagline}` : `${title} · ${site.name}`;
+const fullTitle = title === site.name ? `${site.name} — ${site.slogan.replace(/\.$/, '')}` : `${title} · ${site.name}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = new URL(ogImage, Astro.site);
 
@@ -21,17 +22,18 @@ const organization = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: site.name,
+  slogan: site.slogan,
   url: Astro.site?.toString(),
   description: site.description,
-  logo: new URL('/favicon.svg', Astro.site).toString(),
+  logo: new URL('/brand/copper-design-lockup.svg', Astro.site).toString(),
   ...(site.email ? { email: site.email } : {}),
-  ...(site.socials.length ? { sameAs: site.socials.map((s) => s.href) } : {}),
+  ...(activeSocials.length ? { sameAs: activeSocials.map((s) => s.href) } : {}),
 };
 const structured = [organization, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
 ---
 
 <!doctype html>
-<html lang="en-GB" data-theme="dark">
+<html lang="en-GB" transition:animate="none">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -39,10 +41,11 @@ const structured = [organization, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd :
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex" />}
-    <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#14110F" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#FAF7F3" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#050505" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <meta property="og:type" content="website" />
@@ -61,24 +64,18 @@ const structured = [organization, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd :
 
     <script type="application/ld+json" set:html={JSON.stringify(structured)} />
 
-    <!-- Set theme before first paint: saved choice, else system preference. Dark is the designed-first default. -->
     <script is:inline>
-      (function () {
-        var d = document.documentElement;
-        d.classList.add('js');
-        var t = null;
-        try { t = localStorage.getItem('theme'); } catch (e) {}
-        if (t !== 'light' && t !== 'dark') {
-          t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-        }
-        d.setAttribute('data-theme', t);
-      })();
+      document.documentElement.classList.add('js');
     </script>
+    <script>
+      document.addEventListener('astro:after-swap', () => document.documentElement.classList.add('js'));
+    </script>
+    <ClientRouter fallback="swap" />
   </head>
   <body class="min-h-screen flex flex-col">
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-cta focus:px-5 focus:py-3 focus:text-on-cta"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-fg focus:px-5 focus:py-3 focus:text-bg"
       >Skip to content</a
     >
     <Header />
@@ -88,24 +85,28 @@ const structured = [organization, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd :
     <Footer />
 
     <script>
-      // Scroll reveals (progressive enhancement; CSS only hides elements when JS + motion are allowed).
-      const els = document.querySelectorAll<HTMLElement>('[data-reveal]');
-      if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        const io = new IntersectionObserver(
-          (entries) => {
-            for (const e of entries) {
-              if (e.isIntersecting) {
-                e.target.classList.add('is-visible');
-                io.unobserve(e.target);
+      // Scroll reveals; re-run after every client-side navigation.
+      let io: IntersectionObserver | undefined;
+      document.addEventListener('astro:page-load', () => {
+        io?.disconnect();
+        const els = document.querySelectorAll<HTMLElement>('[data-reveal]');
+        if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          io = new IntersectionObserver(
+            (entries) => {
+              for (const e of entries) {
+                if (e.isIntersecting) {
+                  e.target.classList.add('is-visible');
+                  io?.unobserve(e.target);
+                }
               }
-            }
-          },
-          { rootMargin: '0px 0px -8% 0px', threshold: 0.05 },
-        );
-        els.forEach((el) => io.observe(el));
-      } else {
-        els.forEach((el) => el.classList.add('is-visible'));
-      }
+            },
+            { rootMargin: '0px 0px -8% 0px', threshold: 0.05 },
+          );
+          els.forEach((el) => io!.observe(el));
+        } else {
+          els.forEach((el) => el.classList.add('is-visible'));
+        }
+      });
     </script>
   </body>
 </html>

@@ -1,39 +1,18 @@
 // Home page content: process, AI approach, packages and FAQ.
 
-export const disciplines = [
-  'Brand identity',
-  'Logo design',
-  'Social media graphics',
-  'Marketing & print',
-  'Pitch decks',
-  'Packaging',
-  'Web & UI visuals',
-  'AI concept imagery',
-  'Art direction',
+// Five-step process (from the owner's style reference).
+export const process = [
+  { step: '01', title: 'Discover', short: 'Research, audit and creative brief.', text: 'A short call and a written brief. We look at your market, your audience and what you already have, and agree scope, timeline and budget before design starts.' },
+  { step: '02', title: 'Strategy', short: 'Positioning and visual direction.', text: 'We define what the work needs to say and how it should feel, then set a clear visual direction to design against.' },
+  { step: '03', title: 'Design', short: 'Concepting and craft.', text: 'We explore widely (using AI tools where they help) and then craft the strongest route properly, by hand.' },
+  { step: '04', title: 'Refine', short: 'Iteration and polish.', text: 'Structured feedback rounds, tightening typography, detail and consistency until it holds up everywhere it will be used.' },
+  { step: '05', title: 'Deliver', short: 'Handoff and launch support.', text: 'Organised, correctly formatted files and simple guidance, plus support while it goes live.' },
 ];
 
-export const process = [
-  {
-    step: '01',
-    title: 'Discover',
-    text: 'A short call and a written brief. We agree what success looks like, the deliverables, the timeline and the budget before any design starts.',
-  },
-  {
-    step: '02',
-    title: 'Explore',
-    text: 'We sketch, research and — where it helps — use AI tools to explore a wide range of directions quickly. You see a focused shortlist, not a pile of options.',
-  },
-  {
-    step: '03',
-    title: 'Refine',
-    text: 'One direction, crafted properly by hand. Typography, colour, detail and consistency, with structured feedback rounds so nothing drifts.',
-  },
-  {
-    step: '04',
-    title: 'Deliver',
-    text: 'Organised, correctly formatted files for every place they’ll be used, plus simple guidance so your team can keep things consistent.',
-  },
-];
+// Testimonials render ONLY when this array has entries.
+// TODO(owner): add real, approved client quotes (name, role, company) here. Never use invented quotes.
+export type Testimonial = { quote: string; name: string; role: string };
+export const testimonials: Testimonial[] = [];
 
 export const aiPrinciples = [
   {
@@ -88,13 +67,13 @@ export const packages: Package[] = [
     name: 'Studio partner',
     for: 'Ongoing design support on a monthly basis.',
     price: null,
-    includes: ['A set number of design hours each month', 'Social, marketing and web assets', 'Priority turnaround', 'Monthly planning call', 'Cancel with notice'],
+    includes: ['A set number of design hours each month', 'Graphic, social and motion assets', 'Priority turnaround', 'Monthly planning call', 'Cancel with notice'],
   },
 ];
 
 export const faqs = [
   {
-    q: 'What does “AI-assisted” actually mean here?',
+    q: 'What does “AI Creative” actually mean here?',
     a: 'We use AI tools at specific stages — mainly early exploration and concept imagery — to try more ideas faster. A designer makes every decision and finishes every deliverable. Logos are always drawn by hand.',
   },
   {
