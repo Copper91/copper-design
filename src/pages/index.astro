@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import ServiceCards from '../components/ServiceCards.astro';
@@ -36,7 +37,7 @@ import { startProjectHref } from '../data/site';
         Bold identities, cinematic visuals, and digital experiences that stick — made for brands that refuse to blend in.
       </p>
       <div class="mt-10 flex flex-wrap gap-3" data-reveal style="--reveal-delay:180ms">
-        <a href="/work/" class="btn btn-primary">
+        <a href={u("/work/")} class="btn btn-primary">
           <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect width="12" height="12" rx="2" fill="currentColor"></rect></svg>
           View portfolio
         </a>
@@ -65,7 +66,7 @@ import { startProjectHref } from '../data/site';
         <p class="mt-8 max-w-xl text-muted">
           Copper Design is a Black-owned creative studio working across graphic design, branding, illustration, motion and editorial. Every project begins with a clear idea and a point of view, then moves through thoughtful composition and craft into visuals that connect with real audiences — and hold up long after launch. The goal is always the same: work that feels intentional, distinctive, and unmistakably yours.
         </p>
-        <a href="/about/" class="btn btn-ghost mt-10">More about the studio</a>
+        <a href={u("/about/")} class="btn btn-ghost mt-10">More about the studio</a>
       </div>
     </div>
   </section>
@@ -82,7 +83,7 @@ import { startProjectHref } from '../data/site';
           <li><ProjectCard project={p} index={i} tall delay={Math.min(i, 3) * 80} /></li>
         ))}
         <li class="flex">
-          <a href="/work/" class="card card-hover flex aspect-[4/5] w-full flex-col items-start justify-end p-6 md:p-8">
+          <a href={u("/work/")} class="card card-hover flex aspect-[4/5] w-full flex-col items-start justify-end p-6 md:p-8">
             <span class="eyebrow eyebrow-plain">All work</span>
             <span class="mt-3 text-2xl font-medium" style="font-family: var(--font-heading)">See every project →</span>
           </a>

@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionHeading from '../components/SectionHeading.astro';
@@ -52,7 +53,7 @@ const ld = [
           <ul class="mt-4 divide-y divide-line border-y rule">
             {s.deliverables.map((d) => <li class="py-3 text-sm text-muted">{d}</li>)}
           </ul>
-          <a href={`/contact/?service=${s.slug}#enquiry`} class="btn btn-ghost mt-6">Enquire about {s.title}</a>
+          <a href={u(`/contact/?service=${s.slug}#enquiry`)} class="btn btn-ghost mt-6">Enquire about {s.title}</a>
         </div>
       </section>
     ))}

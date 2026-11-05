@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import Logo from './Logo.astro';
 import { nav, startProjectHref } from '../data/site';
 
@@ -8,7 +9,7 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWi
 
 <header class="sticky top-0 z-50 border-b rule bg-bg/75 backdrop-blur-md" transition:animate="none">
   <div class="container-x flex h-16 items-center justify-between gap-6 md:h-[4.5rem]">
-    <a href="/" class="rounded-md" aria-label="Copper Design, home">
+    <a href={u("/")} class="rounded-md" aria-label="Copper Design, home">
       <Logo />
     </a>
 

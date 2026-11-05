@@ -1,4 +1,5 @@
 ---
+import { u } from '../../lib/url';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 ---
@@ -6,8 +7,8 @@ import PageHero from '../../components/PageHero.astro';
 <BaseLayout title="Thank you" description="Your enquiry has been sent to Copper Design." noindex>
   <PageHero eyebrow="Message sent" lines={['Thank you', 'we’ve got it']} intro="We’ll read your enquiry properly and reply with a few questions and next steps.">
     <div class="mt-10 flex flex-wrap gap-3 pb-24">
-      <a href="/work/" class="btn btn-primary">View portfolio</a>
-      <a href="/" class="btn btn-ghost">Back to home</a>
+      <a href={u("/work/")} class="btn btn-primary">View portfolio</a>
+      <a href={u("/")} class="btn btn-ghost">Back to home</a>
     </div>
   </PageHero>
 </BaseLayout>

@@ -1,3 +1,4 @@
+import { u } from '../lib/url';
 // Global site settings. Values marked TODO(owner) must be supplied before launch.
 
 export const site = {
@@ -23,13 +24,13 @@ export const site = {
 } as const;
 
 export const nav = [
-  { label: 'Work', href: '/work/' },
-  { label: 'Services', href: '/services/' },
-  { label: 'About', href: '/about/' },
-  { label: 'Journal', href: '/journal/' },
-  { label: 'Contact', href: '/contact/' },
+  { label: 'Work', href: u('/work/') },
+  { label: 'Services', href: u('/services/') },
+  { label: 'About', href: u('/about/') },
+  { label: 'Journal', href: u('/journal/') },
+  { label: 'Contact', href: u('/contact/') },
 ] as const;
 
-export const bookCallHref = site.bookingUrl || '/contact/?enquiry=call#enquiry';
+export const bookCallHref = site.bookingUrl || u('/contact/?enquiry=call#enquiry');
 export const activeSocials = site.socials.filter((s) => s.href);
-export const startProjectHref = '/contact/#enquiry';
+export const startProjectHref = u('/contact/#enquiry');

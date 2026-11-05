@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
@@ -17,16 +18,16 @@ interface Props {
 const { title, description, ogImage = '/og-default.png', noindex = false, jsonLd } = Astro.props;
 const fullTitle = title === site.name ? `${site.name} — ${site.slogan.replace(/\.$/, '')}` : `${title} · ${site.name}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImageUrl = new URL(ogImage, Astro.site);
+const ogImageUrl = new URL(u(ogImage), Astro.site);
 
 const organization = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: site.name,
   slogan: site.slogan,
-  url: Astro.site?.toString(),
+  url: new URL(u('/'), Astro.site).toString(),
   description: site.description,
-  logo: new URL('/brand/copper-design-lockup.svg', Astro.site).toString(),
+  logo: new URL(u('/brand/copper-design-lockup.svg'), Astro.site).toString(),
   ...(site.email ? { email: site.email } : {}),
   ...(activeSocials.length ? { sameAs: activeSocials.map((s) => s.href) } : {}),
 };
@@ -44,10 +45,10 @@ const structured = [organization, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd :
     {noindex && <meta name="robots" content="noindex" />}
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#050505" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" href={u("/favicon.svg")} type="image/svg+xml" />
+    <link rel="icon" href={u("/favicon-32.png")} type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href={u("/apple-touch-icon.png")} />
+    <link rel="sitemap" href={u("/sitemap-index.xml")} />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
