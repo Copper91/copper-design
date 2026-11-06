@@ -21,14 +21,17 @@ import { startProjectHref } from '../data/site';
       <div class="hero-glow"></div>
       <svg class="hero-shapes" viewBox="0 0 1440 820" preserveAspectRatio="xMidYMid slice" fill="none" stroke="currentColor" stroke-width="1">
         <path class="s1" d="M880 96 L1000 156 L866 204 Z"></path>
-        <rect class="s2" x="1010" y="120" width="300" height="300" rx="40" transform="rotate(-14 1160 270)"></rect>
+        <g class="s2 screen" transform="rotate(-14 1160 270)">
+          <rect class="screen-frame" x="1010" y="120" width="300" height="300" rx="40"></rect>
+          <g class="smile" stroke="none" fill="currentColor"><rect x="1096" y="206" width="14" height="14"></rect><rect x="1096" y="222" width="14" height="14"></rect><rect x="1096" y="238" width="14" height="14"></rect><rect x="1112" y="206" width="14" height="14"></rect><rect x="1112" y="222" width="14" height="14"></rect><rect x="1112" y="238" width="14" height="14"></rect><rect x="1192" y="206" width="14" height="14"></rect><rect x="1192" y="222" width="14" height="14"></rect><rect x="1192" y="238" width="14" height="14"></rect><rect x="1208" y="206" width="14" height="14"></rect><rect x="1208" y="222" width="14" height="14"></rect><rect x="1208" y="238" width="14" height="14"></rect><rect x="1072" y="290" width="14" height="14"></rect><rect x="1232" y="290" width="14" height="14"></rect><rect x="1088" y="306" width="14" height="14"></rect><rect x="1216" y="306" width="14" height="14"></rect><rect x="1104" y="322" width="14" height="14"></rect><rect x="1120" y="322" width="14" height="14"></rect><rect x="1136" y="322" width="14" height="14"></rect><rect x="1152" y="322" width="14" height="14"></rect><rect x="1168" y="322" width="14" height="14"></rect><rect x="1184" y="322" width="14" height="14"></rect><rect x="1200" y="322" width="14" height="14"></rect></g>
+        </g>
         <circle class="s3" cx="1055" cy="610" r="64"></circle>
         <path class="s4" d="M1250 790 L1330 710"></path>
       </svg>
     </div>
 
-    <div class="container-x relative flex min-h-[calc(100svh-4rem)] flex-col justify-center pb-16 pt-20 md:min-h-[calc(100svh-4.5rem)] md:pt-24">
-      <h1 id="hero-title" class="display text-[clamp(3.2rem,10vw,8.5rem)]" data-reveal>
+    <div class="container-x pointer-events-none relative flex *:pointer-events-auto min-h-[calc(100svh-4rem)] flex-col justify-center pb-16 pt-20 md:min-h-[calc(100svh-4.5rem)] md:pt-24">
+      <h1 id="hero-title" class="display w-fit text-[clamp(3.2rem,10vw,8.5rem)]" data-reveal>
         <span class="block">Design</span>
         <span class="block">Without</span>
         <span class="block text-subtle">Limits</span>
@@ -133,6 +136,23 @@ import { startProjectHref } from '../data/site';
     .hero-shapes .s1 { animation: float 14s ease-in-out infinite alternate; transform-origin: 930px 150px; }
     .hero-shapes .s2 { animation: float 18s ease-in-out infinite alternate-reverse; }
     .hero-shapes .s3 { animation: float 12s ease-in-out infinite alternate; }
+  }
+  /* Hover the square: a pixel smile powers on like a little screen */
+  .hero-shapes .screen { pointer-events: all; }
+  .screen-frame { fill: transparent; transition: stroke 0.3s, fill 0.3s; }
+  .smile { color: #fff; opacity: 0; filter: drop-shadow(0 0 6px rgb(255 255 255 / 0.7)); transition: opacity 0.2s; }
+  .screen:hover .screen-frame { stroke: rgb(255 255 255 / 0.45); fill: rgb(255 255 255 / 0.025); }
+  .screen:hover .smile { opacity: 0.9; }
+  @media (prefers-reduced-motion: no-preference) {
+    .screen:hover .smile { animation: smile-on 0.45s steps(1, end) both; }
+  }
+  @keyframes smile-on {
+    0% { opacity: 0; }
+    15% { opacity: 0.9; }
+    25% { opacity: 0.15; }
+    40% { opacity: 0.9; transform: translateX(3px); }
+    50% { opacity: 0.4; transform: none; }
+    65% { opacity: 0.9; }
   }
   @keyframes float {
     to { transform: translate3d(0, -18px, 0) rotate(4deg); }
