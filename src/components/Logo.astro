@@ -4,8 +4,8 @@
 import { monogram, wordmark } from '../data/logo';
 interface Props { class?: string; size?: 'sm' | 'md' }
 const { class: className = '', size = 'sm' } = Astro.props;
-const markH = size === 'md' ? 'h-11' : 'h-9';
-const wordH = size === 'md' ? 'h-[17px]' : 'h-[14px]';
+const markH = size === 'md' ? 'h-9' : 'h-7';
+const wordH = size === 'md' ? 'h-3.5' : 'h-[11px]';
 ---
 
 <span class:list={['inline-flex items-center gap-3 text-fg', className]}>
