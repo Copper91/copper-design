@@ -28,6 +28,7 @@ const layers = ['r', 'b', 'base', 'scan', 'noise', 'band', 't1', 't2'] as const;
       </filter>
     </defs>
   </svg>
+  <div class="cd-wrap">
   <div class="cd-stage">
     {
       layers.map((l) => (
@@ -42,6 +43,8 @@ const layers = ['r', 'b', 'base', 'scan', 'noise', 'band', 't1', 't2'] as const;
         </svg>
       ))
     }
+  </div>
+  <div class="cd-bar"><span></span></div>
   </div>
 </div>
 
@@ -67,6 +70,36 @@ const layers = ['r', 'b', 'base', 'scan', 'noise', 'band', 't1', 't2'] as const;
   .cd-loader[data-state='leaving'] {
     opacity: 0;
     transition: opacity 0.24s ease-out;
+  }
+
+  .cd-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(28px, 5vh, 44px);
+  }
+  /* Loading bar under the logo, with a faint VHS colour fringe */
+  .cd-bar {
+    position: relative;
+    width: clamp(180px, 32vw, 300px);
+    height: 3px;
+    border-radius: 2px;
+    background: rgb(255 255 255 / 0.12);
+    overflow: hidden;
+  }
+  .cd-bar span {
+    display: block;
+    height: 100%;
+    background: #fff;
+    box-shadow: -2px 0 0 rgb(255 42 60 / 0.8), 2px 0 0 rgb(42 107 255 / 0.8), 0 0 8px rgb(255 255 255 / 0.6);
+    transform-origin: left;
+    animation: cd-bar 0.7s cubic-bezier(0.6, 0, 0.2, 1) both;
+  }
+  @keyframes cd-bar {
+    0% { transform: scaleX(0); }
+    35% { transform: scaleX(0.45); }
+    55% { transform: scaleX(0.6); }
+    100% { transform: scaleX(1); }
   }
 
   /* The logo, big. The whole stack hops and wobbles like a worn tape. */
@@ -180,6 +213,7 @@ const layers = ['r', 'b', 'base', 'scan', 'noise', 'band', 't1', 't2'] as const;
   @media (prefers-reduced-motion: reduce) {
     .cd-l--r, .cd-l--b, .cd-l--scan, .cd-l--noise, .cd-l--band, .cd-l--t1, .cd-l--t2 { display: none; }
     .cd-stage, .cd-l--base { animation: none !important; }
+    .cd-bar span { animation-timing-function: linear; }
     html.cd-intro-out .cd-loader,
     .cd-loader[data-state='leaving'] {
       transition: opacity 0.2s ease-out !important;
