@@ -7,12 +7,12 @@ export const site = {
   slogan: 'Design Without Limits.',
   description:
     'Copper Design is a creative studio for brand identity, graphic design, AI creative and motion graphics — bold identities, cinematic visuals and digital experiences that stick.',
-  // TODO(owner): real contact email.
-  email: '',
+  email: 'copperdesign1@gmail.com',
   // TODO(owner): booking link (e.g. Cal.com or Calendly). Until set, "Book a call" opens the contact form with "call" pre-selected.
   bookingUrl: '',
-  // TODO(owner): form endpoint, e.g. "https://formspree.io/f/xxxxxxx". Leave empty until connected.
-  formEndpoint: '',
+  // Enquiries are forwarded to the email above by FormSubmit (formsubmit.co, free, no account).
+  // The first submission sends an activation email to that inbox; click "Activate" once to start receiving messages.
+  formEndpoint: 'https://formsubmit.co/copperdesign1@gmail.com',
   // TODO(owner): social profile URLs. Only accounts with an href are shown, so leave href empty until it exists.
   socials: [
     { label: 'Instagram', href: '' },

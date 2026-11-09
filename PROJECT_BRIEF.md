@@ -59,6 +59,7 @@ v1 used a short scan of 2025–26 award-site and agency-portfolio trend coverage
 - 2026-11-05: No testimonials, client logos, awards or statistics until the owner supplies real ones. The `Testimonials` component renders only when `testimonials` in `src/data/home.ts` is non-empty. The quotes in the style reference were not used because they aren't known to be real.
 - 2026-11-05: Package prices show "Quoted per project" until set (`price: null`).
 - 2026-11-05: Contact form posts by `fetch` to `site.formEndpoint` (Formspree-style JSON). With no endpoint it simulates success in dev only; production shows an honest "not connected yet" message. Honeypot field `_gotcha`.
+- 2026-11-09: Form now posts to FormSubmit (`https://formsubmit.co/ajax/<email>` via fetch; the plain URL is the no-JS action). Chosen because it needs no account; Formspree remains an option if spam or limits become an issue.
 - 2026-11-05: "Book a call" falls back to `/contact/?enquiry=call` until a booking link is set.
 - 2026-11-05: JSON-LD `Organization` (not `LocalBusiness`) because address and location are unknown.
 - 2026-11-05 (v2): Restyled to the owner's monochrome reference. Dropped the copper palette, the Fraunces serif and the light theme/toggle; the site is dark-only per the reference. Contrast is AA-checked: subtle grey `#858585` is ≥4.9:1 on all card surfaces.
@@ -69,8 +70,8 @@ v1 used a short scan of 2025–26 award-site and agency-portfolio trend coverage
 - 2026-11-05 (v2): Logo traced with potrace (turdsize 40, alphamax 0.9) at full resolution. The trace is close to the original, with slight edge softness from the JPEG; a vector original from the owner would be better.
 
 ## Owner TODOs
-- [ ] **Form endpoint**: create a Formspree form (recommended; works on any host) and set `formEndpoint` in `src/data/site.ts`. Alternative on Netlify: Netlify Forms (add `data-netlify="true"` and `netlify-honeypot="_gotcha"` to the form and drop the fetch endpoint).
-- [ ] **Contact email**: `email` in `src/data/site.ts` (also adds "Email" to the footer Connect list).
+- [x] **Form endpoint**: connected 2026-11-09 via FormSubmit (formsubmit.co) to copperdesign1@gmail.com. Owner must click "Activate" in the one-time activation email FormSubmit sends after the first submission.
+- [x] **Contact email**: copperdesign1@gmail.com (shown on the contact page and footer).
 - [ ] **Social URLs** (Instagram, Behance, LinkedIn, YouTube; only real ones): `socials` in `src/data/site.ts`.
 - [ ] **Booking link** (Cal.com / Calendly): `bookingUrl` in `src/data/site.ts`.
 - [ ] **Domain**: `SITE_URL` in `astro.config.mjs` (canonical URLs, sitemap, robots, OG).
