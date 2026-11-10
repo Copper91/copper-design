@@ -32,7 +32,7 @@ const isDev = import.meta.env.DEV;
         <h2 class="eyebrow eyebrow-plain">Prefer email?</h2>
         {
           site.email ? (
-            <p class="mt-4"><a class="link-underline text-2xl" href={`mailto:${site.email}`}>{site.email}</a></p>
+            <p class="mt-4"><a class="link-underline text-base md:text-lg" href={`mailto:${site.email}`}>{site.email}</a></p>
           ) : (
             <p class="mt-4 text-sm text-muted">An email address will be listed here soon. <!-- TODO(owner): add contact email in src/data/site.ts --></p>
           )
