@@ -1,7 +1,8 @@
 ---
 // Owner's logo, traced from brand/logo-original.jpg (see src/data/logo.ts).
 // variant "inline": small monogram + wordmark side by side (nav/footer).
-import { monogram, wordmark } from '../data/logo';
+import { monogram } from '../data/logo';
+import { wordmarkTight as wordmark } from '../data/logo-tight';
 interface Props { class?: string; size?: 'sm' | 'md' }
 const { class: className = '', size = 'sm' } = Astro.props;
 const markH = size === 'md' ? 'h-9' : 'h-7';
